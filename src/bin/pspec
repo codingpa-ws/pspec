@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+use CodingPaws\PSpec\Entrypoint;
+
+if (php_sapi_name() !== 'cli') {
+  echo "⛔ phptest can only run in your CLI." . PHP_EOL;
+  exit(1);
+}
+
+$file = $argv[1] ?? '.';
+
+require_once  __DIR__ . '/../Entrypoint.php';
+
+$entrypoint = new Entrypoint($file);
+$entrypoint->execute();
