@@ -1,5 +1,6 @@
 {
   "name": "codingpaws/pspec",
+  "description": "A testing framework for PHP, influenced by RSpec and jest.",
   "type": "library",
   "license": "MIT",
   "autoload": {
