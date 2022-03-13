@@ -13,7 +13,7 @@ This project is experimental and still needs a lot of work.
 ```php
 // src/Counter.php
 class Counter {
-  private int $value = 0;
+  public int $value = 0;
 
   function increment() {
     $this->value++;
@@ -22,7 +22,7 @@ class Counter {
 
 // spec/Counter.spec.js
 describe(Counter::class, function () {
-  subject(new Counter);
+  subject(fn () => new Counter);
 
   describe('#increment', function () {
     it('increments by 1', function () {
