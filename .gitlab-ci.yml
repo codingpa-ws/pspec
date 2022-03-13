@@ -1,4 +1,9 @@
-test:
-  image: composer:latest
-  before_script: [composer install]
-  script: src/bin/pspec
+image: composer:latest
+
+before_script: [composer install]
+
+test:pspec:
+  script: src/bin/pspec spec
+
+test:examples:
+  script: src/bin/pspec examples
