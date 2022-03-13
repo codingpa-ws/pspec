@@ -43,3 +43,14 @@ describe(Counter::class, function () {
 1. For a class in your project, for example `Counter`, create a file `spec/Counter.spec.js`
 1. Write some tests, like [the example](#example)
 1. Run PSpec: `vendor/bin/pspec`
+
+## Why?
+
+PSpec models your application with natural language. In PHPUnit—the de
+facto standard in PHP testing—a test file contains a sequential list of
+tests. If two tests are related in PHPUnit, such as one authenticated and
+one unauthenticated request, it’s hard to understand.
+
+In PSpec, tests are nested under real-world conditions, such as being
+signed-in or when a network error occurs. You use `describe` blocks to
+organize tests.
