@@ -32,8 +32,13 @@ composer (the PHP package manager) too. Download it from
 [getcomposer.org][composer] or execute `composer self-update` to update
 an existing composer installation.
 
+Take a look at open, unassigned issues in the project’s
+[issue tracker][allissues] for an overview of all ideas and things to
+work on.
+
 [phpnet]: https://www.php.net/manual/en/install.php
 [composer]: https://getcomposer.org/download/
+[allissues]: https://gitlab.com/codingpaws/pspec/-/issues?sort=created_date&state=opened&assignee_id=None
 
 ### Clone the project
 
