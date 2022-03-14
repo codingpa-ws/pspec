@@ -7,3 +7,11 @@ test:pspec:
 
 test:examples:
   script: src/bin/pspec examples
+
+lint:
+  before_script:
+    - cd tools/php-cs-fixer
+    - composer install
+    - cd ../..
+  script:
+    - tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run --diff

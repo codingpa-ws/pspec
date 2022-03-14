@@ -38,7 +38,9 @@ class Entrypoint
     $files = [];
 
     foreach (scandir($path) as $file) {
-      if (in_array($file, ['.', '..'])) continue;
+      if (in_array($file, ['.', '..'])) {
+        continue;
+      }
 
       $files = array_merge($files, $this->listdir("$path/$file"));
     }

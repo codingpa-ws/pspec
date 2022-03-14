@@ -108,7 +108,7 @@ abstract class Node
     return $stats;
   }
 
-  public abstract function name(): string;
+  abstract public function name(): string;
 
   public function absoluteName(): string
   {
