@@ -9,10 +9,10 @@ class DescribeNode extends Node
     parent::__construct($parent);
   }
 
-  public function run(string $indent = ""): void
+  public function run(Tree $tree, string $indent = ""): void
   {
     echo $indent . $this->title . PHP_EOL;
-    parent::run($indent);
+    parent::run($tree, $indent);
   }
 
   public function name(): string

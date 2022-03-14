@@ -8,8 +8,6 @@ use CodingPaws\PSpec\Stats;
 
 abstract class Node
 {
-  public static Node $root;
-  public static Node $testRoot;
   private static $variableCache = [];
 
   protected Stats $stats;
@@ -50,12 +48,12 @@ abstract class Node
     $this->children[] = $node;
   }
 
-  public function run(string $indent = ""): void
+  public function run(Tree $tree, string $indent = ""): void
   {
     foreach ($this->children as $child) {
-      self::$testRoot = $child;
+      $tree->setCurrentScope($child);
       self::$variableCache = [];
-      $child->run($this->parent ? "$indent  " : "");
+      $child->run($tree, $this->parent ? "$indent  " : "");
     }
   }
 

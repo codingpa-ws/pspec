@@ -3,25 +3,26 @@
 namespace CodingPaws\PSpec;
 
 use CodingPaws\PSpec\Tree\Node;
+use CodingPaws\PSpec\Tree\Tree;
 use DateTime;
 
-require 'vendor/autoload.php';
-
-class Entrypoint
+class Executor
 {
   private DateTime $start;
+  private Tree $tree;
 
   public function __construct(private string $filename)
   {
     $this->start = date_create();
+    $this->tree = new Tree();
   }
 
   public function execute(): void
   {
     $files = $this->parse();
     $this->requireAll($files);
-    $this->test();
-    $this->finalize();
+    $stats = $this->test();
+    $this->finalize($stats);
   }
 
   private function parse(): array
@@ -57,21 +58,22 @@ class Entrypoint
     }
   }
 
-  private function test(): void
+  private function test(): Stats
   {
-    Node::$root->run();
+    return $this->tree->runAllTests();
   }
 
-  private function finalize(): void
+  private function finalize(Stats $stats): void
   {
-    $stats = Node::$root->stats();
-
     $passes = $stats->countPasses();
     $all = $stats->countAll();
     $failures = $all - $passes;
 
     $stats->printFailures();
 
-    echo "\e[32m$passes\e[0m passed; \e[31m$failures\e[0m failed.\n";
+    $ms = $this->start->diff(date_create())->f * 1000;
+    $ms = number_format($ms, 0) . 'ms';
+
+    echo "\e[32m$passes\e[0m passed; \e[31m$failures\e[0m failed; finished in $ms.\n";
   }
 }

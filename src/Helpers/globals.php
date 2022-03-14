@@ -3,19 +3,16 @@
 use CodingPaws\PSpec\Assert\Expectation;
 use CodingPaws\PSpec\Tree\Node;
 use CodingPaws\PSpec\Tree\RootNode;
-
-Node::$root = new RootNode;
+use CodingPaws\PSpec\Tree\Tree;
 
 function describe(string $title, callable $callback): void
 {
-  Node::$root = Node::$root->addDescribe($title);
-  $callback();
-  Node::$root = Node::$root->parent();
+  Tree::describe($title, $callback);
 }
 
 function let(string $title, mixed $value): void
 {
-  Node::$root->addVariable($title, $value);
+  Tree::let($title, $value);
 }
 
 function subject(mixed $value = null): mixed
@@ -24,18 +21,17 @@ function subject(mixed $value = null): mixed
     return get('subject');
   }
 
-  let("subject", $value);
-  return null;
+  return let("subject", $value);
 }
 
 function get(string $name): mixed
 {
-  return Node::$testRoot->resolveVariableValue($name);
+  return Tree::get($name);
 }
 
 function it(string $title, callable $callback): void
 {
-  Node::$root->addTest($title, Closure::fromCallable($callback));
+  Tree::it($title, $callback);
 }
 
 function expect(mixed $actual): Expectation
