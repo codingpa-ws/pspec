@@ -22,7 +22,7 @@ class Executor
     $files = $this->parse();
     $this->requireAll($files);
     $stats = $this->test();
-    $this->finalize($stats);
+    $this->printResults($stats);
   }
 
   private function parse(): array
@@ -63,17 +63,8 @@ class Executor
     return $this->tree->runAllTests();
   }
 
-  private function finalize(Stats $stats): void
+  private function printResults(Stats $stats): void
   {
-    $passes = $stats->countPasses();
-    $all = $stats->countAll();
-    $failures = $all - $passes;
-
-    $stats->printFailures();
-
-    $ms = $this->start->diff(date_create())->f * 1000;
-    $ms = number_format($ms, 0) . 'ms';
-
-    echo "\e[32m$passes\e[0m passed; \e[31m$failures\e[0m failed; finished in $ms.\n";
+    $this->tree->print($stats, $this->start);
   }
 }
