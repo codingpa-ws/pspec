@@ -20,7 +20,7 @@ class Counter {
   }
 }
 
-// spec/Counter.spec.js
+// spec/Counter.spec.php
 describe(Counter::class, function () {
   subject(fn () => new Counter);
 
@@ -40,7 +40,7 @@ describe(Counter::class, function () {
 
 1. Install PSpec: `composer require --dev codingpaws/pspec`
 1. In your project root, create a `spec` directory
-1. For a class in your project, for example `Counter`, create a file `spec/Counter.spec.js`
+1. For a class in your project, for example `Counter`, create a file `spec/Counter.spec.php`
 1. Write some tests, like [the example](#example)
 1. Run PSpec: `vendor/bin/pspec`
 
