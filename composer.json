@@ -7,7 +7,7 @@
     "psr-4": {
       "CodingPaws\\PSpec\\": "src/"
     },
-    "files": ["src/helpers/globals.php"]
+    "files": ["src/Helpers/globals.php"]
   },
   "authors": [
     {

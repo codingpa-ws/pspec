@@ -17,7 +17,7 @@ class TestNode extends Node
     throw new BadFunctionCallException("Can’t describe() inside an it().");
   }
 
-  public function run(string $indent = ""): void
+  public function run(Tree $tree, string $indent = ""): void
   {
     $method = $this->test;
     try {
