@@ -112,7 +112,6 @@ describe(Expectation::class, function () {
       subject(new Expectation(1));
 
       it('throws an error if the value is not callable', function () {
-
         expect(function () {
           subject()->toBeCallable();
         })->toThrow(AssertionError::class);

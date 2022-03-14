@@ -35,7 +35,9 @@ class Stats
 
   public function printFailures(): void
   {
-    if (!$this->countFailures()) return;
+    if (!$this->countFailures()) {
+      return;
+    }
 
     echo "\nFailures:\n\n";
 

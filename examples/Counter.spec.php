@@ -8,12 +8,12 @@ class Counter
 {
   public int $value = 0;
 
-  function increment()
+  public function increment()
   {
     $this->value++;
   }
 
-  function decrement()
+  public function decrement()
   {
     $this->value--;
   }
