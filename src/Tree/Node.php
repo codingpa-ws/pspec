@@ -8,8 +8,6 @@ use CodingPaws\PSpec\Stats;
 
 abstract class Node
 {
-  private static $variableCache = [];
-
   protected Stats $stats;
   public array $children = [];
   private array $variables = [];
@@ -52,7 +50,6 @@ abstract class Node
   {
     foreach ($this->children as $child) {
       $tree->setCurrentScope($child);
-      self::$variableCache = [];
       $child->run($tree, $this->parent ? "$indent  " : "");
     }
   }
@@ -88,11 +85,7 @@ abstract class Node
       return null;
     }
 
-    if (array_key_exists($name, self::$variableCache)) {
-      return self::$variableCache[$name];
-    }
-
-    return self::$variableCache[$name] = $variable->computeValue();
+    return $variable->computeValue();
   }
 
   public function stats(): Stats

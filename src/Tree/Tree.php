@@ -50,7 +50,7 @@ class Tree
 
   public static function get(string $name): mixed
   {
-    return self::$instance->currentScope->resolveVariableValue($name);
+    return self::$instance->currentScope->{'getScope'}()->{$name};
   }
 
   public static function it(string $title, callable $callback): void

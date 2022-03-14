@@ -9,11 +9,11 @@ describe(Variable::class, function () {
 
   describe('with explicit value', function () {
     it('#getName', function () {
-      expect(get('subject')->getName())->toBe('test');
+      expect(subject()->getName())->toBe('test');
     });
 
     it('#computeValue', function () {
-      expect(get('subject')->computeValue())->toBe(get('actual_value'));
+      expect(subject()->computeValue())->toBe($this->actual_value);
     });
   });
 
@@ -21,11 +21,11 @@ describe(Variable::class, function () {
     let('value', fn () => fn () => get('actual_value'));
 
     it('#getName', function () {
-      expect(get('subject')->getName())->toBe('test');
+      expect(subject()->getName())->toBe('test');
     });
 
     it('#computeValue', function () {
-      expect(get('subject')->computeValue())->toBe(get('actual_value'));
+      expect(subject()->computeValue())->toBe($this->actual_value);
     });
   });
 });
