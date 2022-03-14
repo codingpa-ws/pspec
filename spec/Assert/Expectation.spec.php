@@ -37,7 +37,7 @@ describe(Expectation::class, function () {
       let('value', 'test');
 
       it('equals', function () {
-        subject()->toBe(get('value'));
+        subject()->toBe($this->value);
       });
 
       it('not equals', function () {
