@@ -49,7 +49,6 @@ class Tree
     }
   }
 
-
   // --- helpers ---
 
   public static function describe(string $title, callable $callback): void
