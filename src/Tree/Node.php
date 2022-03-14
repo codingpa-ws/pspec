@@ -3,6 +3,7 @@
 namespace CodingPaws\PSpec\Tree;
 
 use Closure;
+use CodingPaws\PSpec\Console\TestFormatter;
 use CodingPaws\PSpec\Convenience\Variable;
 use CodingPaws\PSpec\Stats;
 

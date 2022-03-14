@@ -39,17 +39,22 @@ class Stats
       return;
     }
 
-    echo "\nFailures:\n\n";
+    echo "\e[0m";
+    echo "\n\nFailures:\n\n";
+
+    $parts = [];
 
     $i = 0;
     foreach (array_filter($this->tests, fn ($x) => $x[1]) as [$name, $error, $trace_files]) {
-      printf(" %d) %s\n", ++$i, $name);
-      $this->printError($error, $trace_files);
+      $parts[] = sprintf(" %d) %s\n", ++$i, $name).$this->printError($error, $trace_files);
     }
+
+    echo join("\n\n", $parts);
   }
 
-  private function printError(Throwable $error, array $internal_trace_files): void
+  private function printError(Throwable $error, array $internal_trace_files): string
   {
+    $s = "";
     $offset = $error instanceof AssertionError ? 1 : 0;
     $error_line = $error->getTrace()[$offset];
     $error_file_contents = file_get_contents($error_line['file']);
@@ -58,11 +63,11 @@ class Stats
 
     $trace = array_filter(array_slice($error->getTrace(), $offset), fn ($trace) => !in_array($trace['file'], $internal_trace_files));
 
-    printf("  \e[31m%s: %s\e[0m\n\n", $error::class, $error->getMessage());
+    $s .= sprintf("  \e[31m%s: %s\e[0m\n\n", $error::class, $error->getMessage());
     if (!str_contains($line, "toBe")) {
-      printf("  \e[33m%s\e[0m\n\n", trim($line));
+      $s .= sprintf("  \e[33m%s\e[0m\n\n", trim($line));
     }
-    printf("  - %s\n\n", join("\n  - ", array_map(fn ($t) => $t['file'] . ':' . $t['line'], $trace)));
+    return $s . sprintf("  - %s", join("\n  - ", array_map(fn ($t) => $t['file'] . ':' . $t['line'], $trace)));
   }
 
   public function countAll(): int

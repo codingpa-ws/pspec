@@ -11,7 +11,7 @@ class DescribeNode extends Node
 
   public function run(Tree $tree, string $indent = ""): void
   {
-    echo $indent . $this->title . PHP_EOL;
+    $tree->print(new TestResult($indent . $this->title, TestResult::STATE_GROUP));
     parent::run($tree, $indent);
   }
 

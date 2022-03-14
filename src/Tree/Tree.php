@@ -3,8 +3,12 @@
 namespace CodingPaws\PSpec\Tree;
 
 use Closure;
+use CodingPaws\PSpec\Console\DocTestFormatter;
+use CodingPaws\PSpec\Console\DotTestFormatter;
+use CodingPaws\PSpec\Console\TestFormatter;
 use CodingPaws\PSpec\Stats;
 use CodingPaws\PSpec\Tree\Node;
+use DateTimeInterface;
 use RuntimeException;
 
 class Tree
@@ -12,6 +16,7 @@ class Tree
   private static ?Tree $instance = null;
   private static Node $root;
   private Node $currentScope;
+  private TestFormatter $formatter;
 
   public function __construct()
   {
@@ -21,6 +26,7 @@ class Tree
 
     self::$instance = $this;
     self::$root = new RootNode;
+    $this->formatter = new DotTestFormatter;
   }
 
   public function runAllTests(): Stats
@@ -33,6 +39,16 @@ class Tree
   {
     $this->currentScope = $scope;
   }
+
+  public function print(TestResult|Stats $result, ?DateTimeInterface $start = null): void
+  {
+    if ($result instanceof Stats) {
+      $this->formatter->printResult($result, $start);
+    } else {
+      $this->formatter->printTest($result);
+    }
+  }
+
 
   // --- helpers ---
 

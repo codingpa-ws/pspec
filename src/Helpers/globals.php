@@ -1,8 +1,6 @@
 <?php
 
 use CodingPaws\PSpec\Assert\Expectation;
-use CodingPaws\PSpec\Tree\Node;
-use CodingPaws\PSpec\Tree\RootNode;
 use CodingPaws\PSpec\Tree\Tree;
 
 function describe(string $title, callable $callback): void
