@@ -10,6 +10,7 @@ $config = new PhpCsFixer\Config();
 return $config->setRules([
   '@PSR12' => true,
   'new_with_braces' => false,
+  'no_extra_blank_lines' => true,
 ])
   ->setIndent("  ")
   ->setFinder($finder);

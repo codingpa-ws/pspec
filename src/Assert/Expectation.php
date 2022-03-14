@@ -21,7 +21,6 @@ class Expectation
   {
     $this->toBeCallable();
 
-
     $actual_class = null;
     try {
       ($this->actual)();
