@@ -3,7 +3,6 @@
 namespace CodingPaws\PSpec\Assert;
 
 use AssertionError;
-use Exception;
 use Throwable;
 
 class Expectation
