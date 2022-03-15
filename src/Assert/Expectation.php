@@ -34,6 +34,12 @@ class Expectation
     $this->assertEquals(is_callable($this->actual), true, 'expect()->toBeCallable()');
   }
 
+  public function toContain(string $string): void
+  {
+    $this->assert(is_string($this->actual), 'expect(...) must be a string');
+    $this->assert(str_contains($this->actual, $string), sprintf('"%s" doesn’t contain "%s"', $this->actual, $string));
+  }
+
   private function assertEquals(mixed $expected, mixed $actual, string $message_prepend = ''): void
   {
     $text = [$message_prepend, "\n    expected: " . $this->serializeExpression($expected) . "\n         got: " . $this->serializeExpression($actual)];
