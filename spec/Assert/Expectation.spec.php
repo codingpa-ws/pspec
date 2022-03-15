@@ -118,4 +118,25 @@ describe(Expectation::class, function () {
       });
     });
   });
+
+  describe('#toContain', function () {
+    let('value', 'hello world');
+
+    context('when the value contains the substring', function () {
+      it('throws nothing', function () {
+        expect(function () {
+          subject()->toContain('hello');
+          subject()->toContain('world');
+        })->toThrow(null);
+      });
+    });
+
+    context('when the value contains no substring', function () {
+      it('throws an error', function () {
+        expect(function () {
+          subject()->toContain('henlo');
+        })->toThrow(AssertionError::class);
+      });
+    });
+  });
 });
