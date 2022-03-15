@@ -14,7 +14,7 @@ class Scope
 
   public function __get($name): mixed
   {
-    if (array_key_exists($name, $this->cache)) {
+    if ($this->isCached($name)) {
       return $this->cache[$name];
     }
 
@@ -24,5 +24,10 @@ class Scope
   public function __set($name, $value): void
   {
     $this->cache[$name] = $value;
+  }
+
+  public function isCached(string $name): bool
+  {
+    return array_key_exists($name, $this->cache);
   }
 }
