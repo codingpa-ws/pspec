@@ -3,7 +3,7 @@
 namespace CodingPaws\PSpec\Tree;
 
 use Closure;
-use CodingPaws\PSpec\Console\TestFormatter;
+use CodingPaws\PSpec\Convenience\Scope;
 use CodingPaws\PSpec\Convenience\Variable;
 use CodingPaws\PSpec\Stats;
 
@@ -12,10 +12,16 @@ abstract class Node
   protected Stats $stats;
   public array $children = [];
   private array $variables = [];
+  private array $before = [];
 
   public function __construct(private ?Node $parent = null)
   {
     $this->stats = new Stats();
+  }
+
+  public function addBefore(callable $callback): void
+  {
+    $this->before[] = $callback;
   }
 
   public function addDescribe(string $title): DescribeNode
@@ -55,17 +61,22 @@ abstract class Node
     }
   }
 
+  public function runBefores(Scope $scope): void
+  {
+    $parents = $this->reversedParents();
+
+    foreach ($parents as $parent) {
+      foreach ($parent->before as $callable) {
+        Closure::bind($callable, $scope)();
+      }
+    }
+  }
+
   private function resolveVariable(string $name, ?Variable &$current = null): ?Variable
   {
-    $parents = [];
+    $parents = $this->reversedParents();
 
-    $parent = $this;
-
-    while ($parent = $parent->parent) {
-      $parents[] = $parent;
-    }
-
-    foreach (array_reverse($parents) as $parent) {
+    foreach ($parents as $parent) {
       $parent->resolveVariable($name, $current);
     }
 
@@ -76,6 +87,19 @@ abstract class Node
     }
 
     return $current;
+  }
+
+  private function reversedParents(): array
+  {
+    $parents = [];
+
+    $parent = $this;
+
+    while ($parent = $parent->parent) {
+      $parents[] = $parent;
+    }
+
+    return array_reverse($parents);
   }
 
   public function resolveVariableValue(string $name): mixed

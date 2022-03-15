@@ -58,6 +58,11 @@ class Tree
     self::$root = self::$root->parent();
   }
 
+  public static function before(callable $callback): void
+  {
+    self::$root->addBefore($callback);
+  }
+
   public static function let(string $title, mixed $value): void
   {
     self::$root->addVariable($title, $value);

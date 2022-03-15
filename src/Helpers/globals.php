@@ -3,6 +3,11 @@
 use CodingPaws\PSpec\Assert\Expectation;
 use CodingPaws\PSpec\Tree\Tree;
 
+function before(callable $callback): void
+{
+  Tree::before($callback);
+}
+
 function context(string $title, callable $callback): void
 {
   describe($title, $callback);

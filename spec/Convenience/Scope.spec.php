@@ -18,14 +18,16 @@ describe(Scope::class, function () {
     });
 
     context('registered variable', function () {
-      it('returns the value', function () {
+      before(function () {
         $this->node->addVariable('number', $this->value);
+      });
+
+      it('returns the value', function () {
         expect(subject()->number)->toBe($this->value);
       });
 
       context('when cached', function () {
         it('returns the value', function () {
-          $this->node->addVariable('number', fn () => $this->value);
           expect(subject()->number)->toBe($this->value);
           $this->node->addVariable('number', 1);
           expect(subject()->number)->toBe($this->value);
@@ -34,15 +36,20 @@ describe(Scope::class, function () {
     });
 
     context('with variable in the parent', function () {
+      before(function () {
+        $this->node->parent()->addVariable('number', fn () => $this->value);
+      });
+
       it('returns the value', function () {
-        $this->node->parent()->addVariable('number', fn () =>  $this->value);
         expect(subject()->number)->toBe($this->value);
       });
 
       context('but overwritten', function () {
-        it('returns the child’s value', function () {
-          $this->node->parent()->addVariable('number', $this->value);
+        before(function () {
           $this->node->addVariable('number', $this->new_value);
+        });
+
+        it('returns the child’s value', function () {
           expect(subject()->number)->toBe($this->new_value);
         });
       });
@@ -51,8 +58,9 @@ describe(Scope::class, function () {
 
   describe('#__set', function () {
     context('when cached', function () {
+      before(fn () => subject()->number);
+
       it('returns true', function () {
-        subject()->number;
         expect(subject()->isCached('number'))->toBe(true);
       });
     });
