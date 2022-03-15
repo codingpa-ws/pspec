@@ -29,6 +29,7 @@ class TestNode extends Node
   {
     $method = $this->test;
     try {
+      $this->runBefores($this->scope);
       $method->bindTo($this->scope)();
     } catch (\Throwable $th) {
       $this->stats->addTest($this, $th);
