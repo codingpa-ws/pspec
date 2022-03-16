@@ -23,24 +23,30 @@ class Counter
 describe(Counter::class, function () {
   subject(fn () => new Counter);
 
+  let('base_value', 10);
+
+  before(function () {
+    subject()->value = $this->base_value;
+  });
+
   describe('#increment', function () {
     it('increments by 1', function () {
-      expect(subject()->value)->toBe(0);
+      expect(subject()->value)->toBe($this->base_value);
 
       subject()->increment();
 
-      expect(subject()->value)->toBe(1);
+      expect(subject()->value)->toBe($this->base_value + 1);
     });
   });
 
   describe('#decrement', function () {
     it('decrements by 1', function () {
-      expect(subject()->value)->toBe(0);
+      expect(subject()->value)->toBe($this->base_value);
 
       subject()->decrement();
       subject()->decrement();
 
-      expect(subject()->value)->toBe(-2);
+      expect(subject()->value)->toBe($this->base_value - 2);
     });
   });
 });
