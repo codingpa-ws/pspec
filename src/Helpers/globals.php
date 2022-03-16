@@ -8,6 +8,11 @@ function before(callable $callback): void
   Tree::before($callback);
 }
 
+function after(callable $callback): void
+{
+  Tree::after($callback);
+}
+
 function context(string $title, callable $callback): void
 {
   describe($title, $callback);

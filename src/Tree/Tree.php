@@ -63,6 +63,11 @@ class Tree
     self::$root->addBefore($callback);
   }
 
+  public static function after(callable $callback): void
+  {
+    self::$root->addAfter($callback);
+  }
+
   public static function let(string $title, mixed $value): void
   {
     self::$root->addVariable($title, $value);

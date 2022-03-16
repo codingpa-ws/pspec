@@ -31,6 +31,7 @@ class TestNode extends Node
     try {
       $this->runBefores($this->scope);
       $method->bindTo($this->scope)();
+      $this->runAfters($this->scope);
     } catch (\Throwable $th) {
       $this->stats->addTest($this, $th);
       $tree->print(new TestResult($indent . $this->title, TestResult::STATE_FAILURE, $th));

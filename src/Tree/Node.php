@@ -13,6 +13,7 @@ abstract class Node
   public array $children = [];
   private array $variables = [];
   private array $before = [];
+  private array $after = [];
 
   public function __construct(private ?Node $parent = null)
   {
@@ -22,6 +23,11 @@ abstract class Node
   public function addBefore(callable $callback): void
   {
     $this->before[] = $callback;
+  }
+
+  public function addAfter(callable $callback): void
+  {
+    $this->after[] = $callback;
   }
 
   public function addDescribe(string $title): DescribeNode
@@ -67,6 +73,17 @@ abstract class Node
 
     foreach ($parents as $parent) {
       foreach ($parent->before as $callable) {
+        Closure::bind($callable, $scope)();
+      }
+    }
+  }
+
+  public function runAfters(Scope $scope): void
+  {
+    $parents = array_reverse($this->reversedParents());
+
+    foreach ($parents as $parent) {
+      foreach ($parent->after as $callable) {
         Closure::bind($callable, $scope)();
       }
     }
