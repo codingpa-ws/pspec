@@ -2,7 +2,11 @@
 
 namespace CodingPaws\PSpec;
 
-use CodingPaws\PSpec\Tree\Node;
+use CodingPaws\PSpec\Assert\Expectation;
+use CodingPaws\PSpec\Assert\Matchers\ToBe;
+use CodingPaws\PSpec\Assert\Matchers\ToBeCallable;
+use CodingPaws\PSpec\Assert\Matchers\ToContain;
+use CodingPaws\PSpec\Assert\Matchers\ToThrow;
 use CodingPaws\PSpec\Tree\Tree;
 use DateTime;
 
@@ -15,6 +19,14 @@ class Executor
   {
     $this->start = date_create();
     $this->tree = new Tree();
+  }
+
+  public function registerMatchers(): void
+  {
+    Expectation::extend(ToBe::class);
+    Expectation::extend(ToBeCallable::class);
+    Expectation::extend(ToThrow::class);
+    Expectation::extend(ToContain::class);
   }
 
   public function execute(): void

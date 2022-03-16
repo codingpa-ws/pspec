@@ -138,5 +138,25 @@ describe(Expectation::class, function () {
         })->toThrow(AssertionError::class);
       });
     });
+
+    context('with an array', function () {
+      let('value', [1,2,3]);
+
+      context('when the value contains the number', function () {
+        it('throws nothing', function () {
+          expect(function () {
+            subject()->toContain(1);
+          })->not->toThrow();
+        });
+      });
+
+      context('when the value doesn’t contain the number', function () {
+        it('throws nothing', function () {
+          expect(function () {
+            subject()->toContain(5);
+          })->toThrow(AssertionError::class);
+        });
+      });
+    });
   });
 });

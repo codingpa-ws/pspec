@@ -13,4 +13,5 @@ $file = $argv[1] ?? '.';
 require(__DIR__.'/../../vendor/autoload.php');
 
 $entrypoint = new Executor($file);
+$entrypoint->registerMatchers();
 $entrypoint->execute();
