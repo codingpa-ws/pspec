@@ -3,47 +3,51 @@
 namespace CodingPaws\PSpec\Assert;
 
 use AssertionError;
+use RuntimeException;
 use Throwable;
 
+/**
+ * @property self $not
+ * @method void toBe(mixed $what)
+ * @method void toBeCallable(mixed $what)
+ * @method void toThrow(\Throwable $what = null)
+ * @method void toContain(mixed $what = null)
+ */
 class Expectation
 {
-  public function __construct(private mixed $actual)
+  private static array $matchers = [];
+
+  public static function extend(string $matcher): void
+  {
+    $m = new $matcher;
+
+    self::$matchers[$m->name()] = $matcher;
+  }
+
+  public function __construct(private mixed $actual, private bool $isNot = false)
   {
   }
 
-  public function toBe(mixed $expectation): void
+  public function __get($name)
   {
-    $this->assertEquals($expectation, $this->actual, 'expect()->toBe()');
-  }
-
-  public function toThrow(?string $class): void
-  {
-    $this->toBeCallable();
-
-    $actual_class = null;
-    try {
-      ($this->actual)();
-    } catch (Throwable $actual) {
-      $actual_class = $actual::class;
+    if ($name === 'not') {
+      return new Expectation($this->actual, !$this->isNot);
     }
-    $this->assertEquals($class, $actual_class, 'expect()->toThrow()');
+
+    throw new RuntimeException('Undefined property: ' . self::class . "::$name");
   }
 
-  public function toBeCallable(): void
+  public function __call($name, $arguments)
   {
-    $this->assertEquals(is_callable($this->actual), true, 'expect()->toBeCallable()');
-  }
+    if (!array_key_exists($name, self::$matchers)) {
+      throw new RuntimeException("Matcher expect(...)->$name() not found.");
+    }
 
-  public function toContain(string $string): void
-  {
-    $this->assert(is_string($this->actual), 'expect(...) must be a string');
-    $this->assert(str_contains($this->actual, $string), sprintf('"%s" doesn’t contain "%s"', $this->actual, $string));
-  }
+    $matcher = self::$matchers[$name];
+    $matcher = new $matcher($this->isNot);
+    $result = $matcher->match($this->actual, ...$arguments);
 
-  private function assertEquals(mixed $expected, mixed $actual, string $message_prepend = ''): void
-  {
-    $text = [$message_prepend, "\n    expected: " . $this->serializeExpression($expected) . "\n         got: " . $this->serializeExpression($actual)];
-    $this->assert($expected === $actual, join("\n", $text));
+    $this->assert($result->isPass($this->isNot), $result->getMessage());
   }
 
   private function assert(bool $ok, string $message = '')
@@ -53,7 +57,7 @@ class Expectation
     }
   }
 
-  private function serializeExpression(mixed $value): string
+  private function dumps(mixed $value): string
   {
     ob_start();
     debug_zval_dump($value);

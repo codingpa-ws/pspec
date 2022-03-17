@@ -35,6 +35,7 @@ describe(Counter::class, function () {
 
       subject()->increment();
 
+      expect(subject()->value)->not->toBe($this->base_value);
       expect(subject()->value)->toBe($this->base_value + 1);
     });
   });
