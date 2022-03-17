@@ -2,13 +2,13 @@
 
 namespace CodingPaws\PSpec\Assert\Matchers;
 
-use AssertionError;
-use Closure;
+use CodingPaws\PSpec\Traits\Asserts;
 use ReflectionFunction;
-use ReflectionObject;
 
 abstract class Matcher
 {
+  use Asserts;
+
   public function __construct(
     private bool $not = false,
   ) {
@@ -20,13 +20,6 @@ abstract class Matcher
   protected function isNot(): bool
   {
     return $this->not;
-  }
-
-  protected function assert(bool $ok, string $message = ""): void
-  {
-    if (!$ok) {
-      throw new AssertionError($message);
-    }
   }
 
   protected function generateFor(array $parts, string $message = ""): string

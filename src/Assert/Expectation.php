@@ -2,7 +2,8 @@
 
 namespace CodingPaws\PSpec\Assert;
 
-use AssertionError;
+use CodingPaws\PSpec\Assert\Matchers\Matcher;
+use CodingPaws\PSpec\Traits\Asserts;
 use RuntimeException;
 use Throwable;
 
@@ -15,6 +16,8 @@ use Throwable;
  */
 class Expectation
 {
+  use Asserts;
+
   private static array $matchers = [];
 
   public static function extend(string $matcher): void
@@ -24,8 +27,10 @@ class Expectation
     self::$matchers[$m->name()] = $matcher;
   }
 
-  public function __construct(private mixed $actual, private bool $isNot = false)
-  {
+  public function __construct(
+    private mixed $actual,
+    private bool $isNot = false,
+  ) {
   }
 
   public function __get($name)
@@ -39,31 +44,21 @@ class Expectation
 
   public function __call($name, $arguments)
   {
+    $matcher = $this->getMatcherOrThrow($name);
+    $result = $matcher->match($this->actual, ...$arguments);
+
+    $this->assert($result->isPass($this->isNot), $result->getMessage());
+  }
+
+  private function getMatcherOrThrow(string $name): Matcher
+  {
     if (!array_key_exists($name, self::$matchers)) {
       throw new RuntimeException("Matcher expect(...)->$name() not found.");
     }
 
     $matcher = self::$matchers[$name];
     $matcher = new $matcher($this->isNot);
-    $result = $matcher->match($this->actual, ...$arguments);
 
-    $this->assert($result->isPass($this->isNot), $result->getMessage());
-  }
-
-  private function assert(bool $ok, string $message = '')
-  {
-    if (!$ok) {
-      throw new AssertionError($message);
-    }
-  }
-
-  private function dumps(mixed $value): string
-  {
-    ob_start();
-    debug_zval_dump($value);
-    $parts = preg_replace('/refcount\(\d+\)/', '', ob_get_contents());
-    ob_end_clean();
-
-    return trim($parts);
+    return $matcher;
   }
 }
