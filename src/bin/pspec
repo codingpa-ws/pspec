@@ -10,8 +10,18 @@ if (php_sapi_name() !== 'cli') {
 
 $file = $argv[1] ?? '.';
 
-require(__DIR__.'/../../vendor/autoload.php');
+foreach ([__DIR__ . '/../../../../autoload.php', __DIR__ . '/../../vendor/autoload.php'] as $autoload) {
+  if (file_exists($autoload)) require($autoload);
+}
+
+if (!$autoload) {
+  echo "⛔ Use `composer install` to install all dependencies." . PHP_EOL;
+  exit(1);
+}
+
+unset($autoload);
 
 $entrypoint = new Executor($file);
+unset($file);
 $entrypoint->registerMatchers();
 $entrypoint->execute();
