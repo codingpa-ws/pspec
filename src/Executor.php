@@ -51,7 +51,7 @@ class Executor
     $files = [];
 
     foreach (scandir($path) as $file) {
-      if (in_array($file, ['.', '..']) || str_contains($file, '/vendor/')) {
+      if (in_array($file, ['.', '..']) || $file === 'vendor') {
         continue;
       }
 
