@@ -3,7 +3,12 @@ image: composer:latest
 before_script: [composer install]
 
 test:pspec:
-  script: src/bin/pspec spec
+  before_script:
+    - apk add autoconf build-base
+    - pecl install xdebug
+    - echo 'zend_extension=xdebug' > /usr/local/etc/php/php-cli.ini
+    - composer install
+  script: XDEBUG_MODE=coverage src/bin/pspec spec
 
 test:examples:
   script: src/bin/pspec examples
