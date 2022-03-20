@@ -1,6 +1,7 @@
 <?php
 
 use CodingPaws\PSpec\Assert\Expectation;
+use CodingPaws\PSpec\Coverage\Adapter;
 use CodingPaws\PSpec\Tree\Tree;
 
 function before(callable $callback): void
