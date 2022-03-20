@@ -24,4 +24,5 @@ unset($autoload);
 $entrypoint = new Executor($file);
 unset($file);
 $entrypoint->registerMatchers();
+$entrypoint->registerCoverageAdapters();
 $entrypoint->execute();

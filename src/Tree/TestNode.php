@@ -5,6 +5,7 @@ namespace CodingPaws\PSpec\Tree;
 use BadFunctionCallException;
 use Closure;
 use CodingPaws\PSpec\Convenience\Scope;
+use CodingPaws\PSpec\Coverage\Adapter;
 
 class TestNode extends Node
 {
@@ -30,7 +31,9 @@ class TestNode extends Node
     $method = $this->test;
     try {
       $this->runBefores($this->scope);
+      Adapter::get()?->startTest();
       $method->bindTo($this->scope)();
+      Adapter::get()?->endTest();
       $this->runAfters($this->scope);
     } catch (\Throwable $th) {
       $this->stats->addTest($this, $th);

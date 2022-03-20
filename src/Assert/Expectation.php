@@ -3,6 +3,7 @@
 namespace CodingPaws\PSpec\Assert;
 
 use CodingPaws\PSpec\Assert\Matchers\Matcher;
+use CodingPaws\PSpec\Coverage\Adapter;
 use CodingPaws\PSpec\Traits\Asserts;
 use RuntimeException;
 use Throwable;
