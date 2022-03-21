@@ -15,12 +15,12 @@ use DateTime;
 class Executor
 {
   private DateTime $start;
-  private Tree $tree;
+  private PSpec $app;
 
   public function __construct(private string $filename)
   {
     $this->start = date_create();
-    $this->tree = new Tree();
+    $this->app = new PSpec;
   }
 
   public function registerMatchers(): void
@@ -79,11 +79,11 @@ class Executor
 
   private function test(): Stats
   {
-    return $this->tree->runAllTests();
+    return $this->app->runAllTests();
   }
 
   private function printResults(Stats $stats): void
   {
-    $this->tree->print($stats, $this->start);
+    $this->app->print($stats, $this->start);
   }
 }

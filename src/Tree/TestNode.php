@@ -6,6 +6,7 @@ use BadFunctionCallException;
 use Closure;
 use CodingPaws\PSpec\Convenience\Scope;
 use CodingPaws\PSpec\Coverage\Adapter;
+use CodingPaws\PSpec\PSpec;
 
 class TestNode extends Node
 {
@@ -26,7 +27,7 @@ class TestNode extends Node
     return $this->scope;
   }
 
-  public function run(Tree $tree, string $indent = ""): void
+  public function run(PSpec $tree, string $indent = ""): void
   {
     $method = $this->test;
     try {
