@@ -5,6 +5,7 @@ namespace CodingPaws\PSpec\Tree;
 use Closure;
 use CodingPaws\PSpec\Convenience\Scope;
 use CodingPaws\PSpec\Convenience\Variable;
+use CodingPaws\PSpec\PSpec;
 use CodingPaws\PSpec\Stats;
 
 abstract class Node
@@ -59,11 +60,11 @@ abstract class Node
     $this->children[] = $node;
   }
 
-  public function run(Tree $tree, string $indent = ""): void
+  public function run(PSpec $app, string $indent = ""): void
   {
     foreach ($this->children as $child) {
-      $tree->setCurrentScope($child);
-      $child->run($tree, $this->parent ? "$indent  " : "");
+      $app->setCurrentScope($child);
+      $child->run($app, $this->parent ? "$indent  " : "");
     }
   }
 

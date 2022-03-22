@@ -2,6 +2,8 @@
 
 namespace CodingPaws\PSpec\Tree;
 
+use CodingPaws\PSpec\PSpec;
+
 class DescribeNode extends Node
 {
   public function __construct(Node $parent, private string $title)
@@ -9,10 +11,10 @@ class DescribeNode extends Node
     parent::__construct($parent);
   }
 
-  public function run(Tree $tree, string $indent = ""): void
+  public function run(PSpec $app, string $indent = ""): void
   {
-    $tree->print(new TestResult($indent . $this->title, TestResult::STATE_GROUP));
-    parent::run($tree, $indent);
+    $app->print(new TestResult($indent . $this->title, TestResult::STATE_GROUP));
+    parent::run($app, $indent);
   }
 
   public function name(): string

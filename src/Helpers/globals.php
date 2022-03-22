@@ -1,17 +1,16 @@
 <?php
 
 use CodingPaws\PSpec\Assert\Expectation;
-use CodingPaws\PSpec\Coverage\Adapter;
-use CodingPaws\PSpec\Tree\Tree;
+use CodingPaws\PSpec\PSpec;
 
 function before(callable $callback): void
 {
-  Tree::before($callback);
+  PSpec::before($callback);
 }
 
 function after(callable $callback): void
 {
-  Tree::after($callback);
+  PSpec::after($callback);
 }
 
 function context(string $title, callable $callback): void
@@ -21,12 +20,12 @@ function context(string $title, callable $callback): void
 
 function describe(string $title, callable $callback): void
 {
-  Tree::describe($title, $callback);
+  PSpec::describe($title, $callback);
 }
 
 function let(string $title, mixed $value): void
 {
-  Tree::let($title, $value);
+  PSpec::let($title, $value);
 }
 
 function subject(mixed $value = null): mixed
@@ -40,12 +39,12 @@ function subject(mixed $value = null): mixed
 
 function get(string $name): mixed
 {
-  return Tree::get($name);
+  return PSpec::get($name);
 }
 
 function it(string $title, callable $callback): void
 {
-  Tree::it($title, $callback);
+  PSpec::it($title, $callback);
 }
 
 function expect(mixed $actual): Expectation
