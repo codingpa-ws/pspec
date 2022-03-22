@@ -8,7 +8,7 @@ if (php_sapi_name() !== 'cli') {
   exit(1);
 }
 
-$file = $argv[1] ?? '.';
+$file = $argv[1] ?? null;
 
 foreach ([__DIR__ . '/../../../../autoload.php', __DIR__ . '/../../vendor/autoload.php'] as $autoload) {
   if (file_exists($autoload)) require($autoload);

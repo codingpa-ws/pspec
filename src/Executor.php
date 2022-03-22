@@ -8,6 +8,7 @@ use CodingPaws\PSpec\Assert\Matchers\ToBeCallable;
 use CodingPaws\PSpec\Assert\Matchers\ToContain;
 use CodingPaws\PSpec\Assert\Matchers\ToExtend;
 use CodingPaws\PSpec\Assert\Matchers\ToThrow;
+use CodingPaws\PSpec\Config\Config;
 use CodingPaws\PSpec\Coverage\Adapter;
 use CodingPaws\PSpec\Coverage\XDebugAdapter;
 use DateTime;
@@ -17,10 +18,10 @@ class Executor
   private DateTime $start;
   private PSpec $app;
 
-  public function __construct(private string $filename)
+  public function __construct(private ?string $filename)
   {
     $this->start = date_create();
-    $this->app = new PSpec;
+    $this->app = new PSpec($this->loadConfig());
   }
 
   public function registerMatchers(): void
@@ -37,6 +38,23 @@ class Executor
     Adapter::register(new XDebugAdapter);
   }
 
+  private function loadConfig(): Config
+  {
+    $path = getcwd();
+
+    while (strlen($path) > strlen('.pspec.php')) {
+      $sep = DIRECTORY_SEPARATOR;
+      $file = "$path$sep.pspec.php";
+      $exists = file_exists($file);
+      if ($exists) {
+        return require $file;
+      }
+      $path = dirname($path);
+    }
+
+    return new Config(getcwd());
+  }
+
   public function execute(): void
   {
     $files = $this->parse();
@@ -47,7 +65,17 @@ class Executor
 
   private function parse(): array
   {
-    return $this->listdir($this->filename);
+    if ($this->filename) {
+      return $this->listdir($this->filename);
+    }
+
+    $files = [];
+
+    foreach ($this->app->getConfig()->getDirectories() as $dir) {
+      $files = array_merge($files, $this->listdir($dir));
+    }
+
+    return $files;
   }
 
   private function listdir(string $path): array
