@@ -31,7 +31,6 @@ class PSpec
 
   public static function describe(string $title, callable $callback): void
   {
-
     self::$instance->tree->setRoot(self::$instance->tree->getRoot()->addDescribe($title));
 
     $callback();
