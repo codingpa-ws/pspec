@@ -11,7 +11,7 @@ class Config
 
   public static function new(): self
   {
-    $basepath = dirname((new Exception)->getTrace()[1]['args'][0]);
+    $basepath = dirname((new Exception)->getTrace()[0]['file']);
     return new self($basepath);
   }
 
