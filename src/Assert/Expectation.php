@@ -13,7 +13,8 @@ use Throwable;
  * @method void toBe(mixed $what)
  * @method void toBeCallable(mixed $what)
  * @method void toThrow(\Throwable $what = null)
- * @method void toContain(mixed $what = null)
+ * @method void toContain(mixed $what)
+ * @method void toExtend(string $class)
  */
 class Expectation
 {

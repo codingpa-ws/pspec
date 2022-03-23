@@ -6,10 +6,10 @@ use CodingPaws\PSpec\Assert\Expectation;
 use CodingPaws\PSpec\Assert\Matchers\ToBe;
 use CodingPaws\PSpec\Assert\Matchers\ToBeCallable;
 use CodingPaws\PSpec\Assert\Matchers\ToContain;
+use CodingPaws\PSpec\Assert\Matchers\ToExtend;
 use CodingPaws\PSpec\Assert\Matchers\ToThrow;
 use CodingPaws\PSpec\Coverage\Adapter;
 use CodingPaws\PSpec\Coverage\XDebugAdapter;
-use CodingPaws\PSpec\Tree\Tree;
 use DateTime;
 
 class Executor
@@ -29,6 +29,7 @@ class Executor
     Expectation::extend(ToBeCallable::class);
     Expectation::extend(ToThrow::class);
     Expectation::extend(ToContain::class);
+    Expectation::extend(ToExtend::class);
   }
 
   public function registerCoverageAdapters(): void
