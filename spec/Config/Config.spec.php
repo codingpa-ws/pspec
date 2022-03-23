@@ -1,6 +1,9 @@
 <?php
 
 use CodingPaws\PSpec\Config\Config;
+use CodingPaws\PSpec\Console\DotTestFormatter;
+use CodingPaws\PSpec\Console\TestFormatter;
+use CodingPaws\PSpec\Tree\TestResult;
 
 describe(Config::class, function () {
   subject(fn () => Config::new());
@@ -44,4 +47,24 @@ describe(Config::class, function () {
       });
     });
   });
+
+  describe('#setFormatter', function () {
+    it('sets the formatter', function () {
+      $this->subject->setFormatter(new ExampleFormatter);
+      expect($this->subject->getFormatter()::class)->toBe(ExampleFormatter::class);
+    });
+  });
+
+  describe('#getFormatter', function () {
+    it('returns a DotTestFormatter by default', function () {
+      expect($this->subject->getFormatter()::class)->toBe(DotTestFormatter::class);
+    });
+  });
 });
+
+class ExampleFormatter extends TestFormatter
+{
+  public function printTest(TestResult $result): void
+  {
+  }
+}

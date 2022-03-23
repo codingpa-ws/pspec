@@ -25,7 +25,6 @@ class PSpec
 
     $this->tree = new Tree($this);
     self::$instance = $this;
-    $this->formatter = new DotTestFormatter;
   }
 
   public static function describe(string $title, callable $callback): void
@@ -80,9 +79,9 @@ class PSpec
   public function print(TestResult|Stats $result, ?DateTimeInterface $start = null): void
   {
     if ($result instanceof Stats) {
-      $this->formatter->printResult($result, $start);
+      $this->config->getFormatter()->printResult($result, $start);
     } else {
-      $this->formatter->printTest($result);
+      $this->config->getFormatter()->printTest($result);
     }
   }
 
