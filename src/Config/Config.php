@@ -2,12 +2,15 @@
 
 namespace CodingPaws\PSpec\Config;
 
+use CodingPaws\PSpec\Console\DotTestFormatter;
+use CodingPaws\PSpec\Console\TestFormatter;
 use Exception;
 use RuntimeException;
 
 class Config
 {
   private array $dirs = [];
+  private TestFormatter $formatter;
 
   public static function new(): self
   {
@@ -17,6 +20,7 @@ class Config
 
   private function __construct(private string $basepath)
   {
+    $this->formatter = new DotTestFormatter;
     try {
       $this->addDirectory('spec');
     } catch (\Throwable $th) {
@@ -35,6 +39,18 @@ class Config
     $this->dirs[] = $full_path;
 
     return $this;
+  }
+
+  public function setFormatter(TestFormatter $formatter): self
+  {
+    $this->formatter = $formatter;
+
+    return $this;
+  }
+
+  public function getFormatter(): TestFormatter
+  {
+    return $this->formatter;
   }
 
   public function getBasePath(): string
