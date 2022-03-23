@@ -3,10 +3,9 @@
 namespace CodingPaws\PSpec;
 
 use Closure;
+use CodingPaws\PSpec\Config\Config;
 use CodingPaws\PSpec\Console\DotTestFormatter;
-use CodingPaws\PSpec\Console\TestFormatter;
 use CodingPaws\PSpec\Tree\Node;
-use CodingPaws\PSpec\Tree\RootNode;
 use CodingPaws\PSpec\Tree\TestResult;
 use CodingPaws\PSpec\Tree\Tree;
 use DateTimeInterface;
@@ -18,7 +17,7 @@ class PSpec
   private Node $currentScope;
   private Tree $tree;
 
-  public function __construct()
+  public function __construct(private Config $config)
   {
     if (self::$instance) {
       throw new RuntimeException('Only one Tree instance can be created');
@@ -85,5 +84,10 @@ class PSpec
     } else {
       $this->formatter->printTest($result);
     }
+  }
+
+  public function getConfig(): Config
+  {
+    return clone $this->config;
   }
 }
