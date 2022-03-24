@@ -52,7 +52,7 @@ abstract class Node
 
   public function addVariable(string $name, mixed $value): Variable
   {
-    return $this->variables[] = new Variable($name, $value);
+    return $this->variables[$name] = new Variable($name, $value);
   }
 
   private function addChildNode(Node $node): void
@@ -90,21 +90,17 @@ abstract class Node
     }
   }
 
-  private function resolveVariable(string $name, ?Variable &$current = null): ?Variable
+  private function resolveVariable(string $name): ?Variable
   {
-    $parents = $this->reversedParents();
+    $node = $this;
 
-    foreach ($parents as $parent) {
-      $parent->resolveVariable($name, $current);
-    }
-
-    foreach ($this->variables as $variable) {
-      if ($variable->getName() === $name) {
-        $current = $variable;
+    do {
+      if (array_key_exists($name, $node->variables)) {
+        return $node->variables[$name];
       }
-    }
+    } while ($node = $node->parent);
 
-    return $current;
+    return null;
   }
 
   private function reversedParents(): array
