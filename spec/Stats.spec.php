@@ -62,4 +62,14 @@ describe(Stats::class, function () {
       });
     });
   });
+
+  describe('#countAll', function () {
+    it('returns the number of all tests', function () {
+      subject()->addTest($this->node);
+      subject()->addTest($this->node);
+      subject()->addTest($this->node, $this->exception);
+
+      expect(subject()->countAll())->toBe(3);
+    });
+  });
 });
