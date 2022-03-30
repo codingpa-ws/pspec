@@ -45,7 +45,7 @@ abstract class Adapter
    */
   public static function register(Adapter $adapter): void
   {
-    self::$adapters[] = $adapter;
+    self::$adapters[$adapter::class] = $adapter;
   }
 
   /**

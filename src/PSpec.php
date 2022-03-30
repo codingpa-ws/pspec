@@ -19,11 +19,12 @@ class PSpec
 
   public function __construct(private Config $config)
   {
-    if (self::$instance) {
-      throw new RuntimeException('Only one Tree instance can be created');
+    if (self::$instance && !array_key_exists('PSPEC_ALLOW_MULTIPLE_INSTANCES', $GLOBALS)) {
+      throw new RuntimeException('Only one PSpec instance can be created');
     }
 
     $this->tree = new Tree($this);
+
     self::$instance = $this;
   }
 
