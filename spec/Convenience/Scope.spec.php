@@ -57,6 +57,15 @@ describe(Scope::class, function () {
   });
 
   describe('#__set', function () {
+    it('sets the value in the cache', function () {
+      expect(subject()->isCached('number'))->toBe(false);
+      subject()->number = 5;
+      expect(subject()->number)->toBe(5);
+      expect(subject()->isCached('number'))->toBe(true);
+    });
+  });
+
+  describe('#isCached', function () {
     context('when cached', function () {
       before(fn () => subject()->number);
 
