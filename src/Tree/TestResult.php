@@ -22,7 +22,7 @@ class TestResult
     return $this->fullName;
   }
 
-  public function getThrowable(): Throwable
+  public function getThrowable(): ?Throwable
   {
     return $this->throwable;
   }
