@@ -11,6 +11,6 @@ class RootNode extends Node
 
   public function name(): string
   {
-    return "";
+    return '';
   }
 }
