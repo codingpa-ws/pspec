@@ -9,6 +9,11 @@
     },
     "files": ["src/Helpers/globals.php"]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "CodingPaws\\Spec\\": "spec/"
+    }
+  },
   "authors": [
     {
       "name": "Kev",
