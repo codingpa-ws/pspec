@@ -2,8 +2,6 @@
 
 namespace CodingPaws\PSpec\Coverage;
 
-use ReflectionFunction;
-
 class XDebugAdapter extends Adapter
 {
   public function startTest(): void

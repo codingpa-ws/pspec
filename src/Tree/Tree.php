@@ -3,9 +3,6 @@
 namespace CodingPaws\PSpec\Tree;
 
 use CodingPaws\PSpec\PSpec;
-use CodingPaws\PSpec\Stats;
-use CodingPaws\PSpec\Tree\Node;
-use DateTimeInterface;
 
 class Tree
 {

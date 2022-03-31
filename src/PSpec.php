@@ -4,7 +4,6 @@ namespace CodingPaws\PSpec;
 
 use Closure;
 use CodingPaws\PSpec\Config\Config;
-use CodingPaws\PSpec\Console\DotTestFormatter;
 use CodingPaws\PSpec\Tree\Node;
 use CodingPaws\PSpec\Tree\TestResult;
 use CodingPaws\PSpec\Tree\Tree;
