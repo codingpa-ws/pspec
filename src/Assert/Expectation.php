@@ -5,7 +5,6 @@ namespace CodingPaws\PSpec\Assert;
 use CodingPaws\PSpec\Assert\Matchers\Matcher;
 use CodingPaws\PSpec\Traits\Asserts;
 use RuntimeException;
-use Throwable;
 
 /**
  * @property self $not
