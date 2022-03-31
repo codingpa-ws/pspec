@@ -4,8 +4,8 @@ use CodingPaws\PSpec\Convenience\Variable;
 
 describe(Variable::class, function () {
   let('actual_value', 1234);
-  subject(new Variable('test', 1234));
   let('value', fn () => get('actual_value'));
+  subject(fn () => new Variable('test', get('value')));
 
   describe('with explicit value', function () {
     it('#getName', function () {
