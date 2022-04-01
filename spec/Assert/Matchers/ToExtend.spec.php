@@ -17,7 +17,6 @@ class D
 }
 
 describe(ToExtend::class, function () {
-  subject(fn () => new ToExtend);
   let('is_pass', fn () => subject()->match(...get('args'))->isPass());
 
   describe('#name', function () {

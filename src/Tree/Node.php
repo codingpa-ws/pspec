@@ -90,7 +90,7 @@ abstract class Node
     }
   }
 
-  private function resolveVariable(string $name): ?Variable
+  public function resolveVariable(string $name): ?Variable
   {
     $node = $this;
 
@@ -114,17 +114,6 @@ abstract class Node
     }
 
     return array_reverse($parents);
-  }
-
-  public function resolveVariableValue(string $name): mixed
-  {
-    $variable = $this->resolveVariable($name);
-
-    if (!$variable) {
-      return null;
-    }
-
-    return $variable->computeValue();
   }
 
   public function stats(): Stats

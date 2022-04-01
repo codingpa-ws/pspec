@@ -3,7 +3,6 @@
 use CodingPaws\PSpec\Assert\Matchers\ToThrow;
 
 describe(ToThrow::class, function () {
-  subject(fn () => new ToThrow);
   let('is_pass', fn () => subject()->match(...get('args'))->isPass());
 
   describe('#name', function () {

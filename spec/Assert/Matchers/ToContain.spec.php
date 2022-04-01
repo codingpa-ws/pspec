@@ -3,7 +3,6 @@
 use CodingPaws\PSpec\Assert\Matchers\ToContain;
 
 describe(ToContain::class, function () {
-  subject(fn () => new ToContain());
   let('is_pass', fn () => subject()->match(...get('args'))->isPass());
 
   describe('#name', function () {

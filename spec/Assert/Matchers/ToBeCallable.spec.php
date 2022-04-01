@@ -3,7 +3,6 @@
 use CodingPaws\PSpec\Assert\Matchers\ToBeCallable;
 
 describe(ToBeCallable::class, function () {
-  subject(fn () => new ToBeCallable);
   let('is_pass', fn () => subject()->match(...get('args'))->isPass());
 
   describe('#name', function () {
