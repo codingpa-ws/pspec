@@ -80,11 +80,17 @@ class Stats
       $trace = $error->getTrace();
     }
 
+    $trace = array_map(fn ($t) => $t['file'] . ':' . $t['line'], $trace);
+
+    if (!str_starts_with($error->getFile(), PSPEC_BASE_DIR)) {
+      array_unshift($trace, $error->getFile() . ':' . $error->getLine());
+    }
+
     $s .= sprintf("  \e[31m%s: %s\e[0m\n\n", $error::class, $error->getMessage());
     if (!str_contains($line, "toBe")) {
       $s .= sprintf("  \e[33m%s\e[0m\n\n", trim($line));
     }
-    return $s . sprintf("  - %s", join("\n  - ", array_map(fn ($t) => $t['file'] . ':' . $t['line'], $trace)));
+    return $s . sprintf("  - %s", join("\n  - ", $trace));
   }
 
   public function countAll(): int
