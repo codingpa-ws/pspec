@@ -10,7 +10,7 @@ use CodingPaws\PSpec\Assert\Matchers\ToExtend;
 use CodingPaws\PSpec\Assert\Matchers\ToThrow;
 use CodingPaws\PSpec\Config\Config;
 use CodingPaws\PSpec\Coverage\Adapter;
-use CodingPaws\PSpec\Coverage\XDebugAdapter;
+use CodingPaws\PSpec\Coverage\XdebugAdapter;
 use DateTime;
 
 class Executor
@@ -35,7 +35,7 @@ class Executor
 
   public function registerCoverageAdapters(): void
   {
-    Adapter::register(new XDebugAdapter);
+    Adapter::register(new XdebugAdapter);
   }
 
   private function loadConfig(): Config

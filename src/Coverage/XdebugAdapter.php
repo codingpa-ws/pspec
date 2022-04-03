@@ -2,7 +2,7 @@
 
 namespace CodingPaws\PSpec\Coverage;
 
-class XDebugAdapter extends Adapter
+class XdebugAdapter extends Adapter
 {
   public function startTest(): void
   {
