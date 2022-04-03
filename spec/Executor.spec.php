@@ -2,7 +2,7 @@
 
 use CodingPaws\PSpec\Assert\Expectation;
 use CodingPaws\PSpec\Coverage\Adapter;
-use CodingPaws\PSpec\Coverage\XDebugAdapter;
+use CodingPaws\PSpec\Coverage\XdebugAdapter;
 use CodingPaws\PSpec\Executor;
 use CodingPaws\PSpec\PSpec;
 
@@ -55,7 +55,7 @@ describe(Executor::class, function () {
       $adapters->setAccessible(true);
 
       expect(array_keys($adapters->getValue()))->toBe([
-        XDebugAdapter::class,
+        XdebugAdapter::class,
       ]);
     });
   });

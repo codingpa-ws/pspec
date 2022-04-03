@@ -30,7 +30,7 @@ abstract class Adapter
 
   /**
    * Returns true if the adapter’s underlying system
-   * (e.g. XDebug) is enabled and available.
+   * (e.g. Xdebug) is enabled and available.
    *
    * Only available adapters will be considered for
    * actually collecting code coverage by the
