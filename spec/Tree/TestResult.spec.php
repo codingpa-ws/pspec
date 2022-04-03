@@ -1,37 +1,48 @@
 <?php
 
 use CodingPaws\PSpec\Tree\TestResult;
+use CodingPaws\Spec\MockNode;
 
 describe(TestResult::class, function () {
+  let('example_node', new MockNode);
   let('name', 'full name');
-  let('state', TestResult::STATE_SUCCESS);
-  let('throwable', null);
-  subject(fn () => new TestResult(get('name'), get('state'), get('throwable')));
+  let('throwables', []);
+  subject(fn () => new TestResult(get('example_node'), get('throwables')));
 
-  describe('#getName', function () {
-    it('returns the name', function () {
-      expect(subject()->getName())->toBe($this->name);
+  describe('#getNode', function () {
+    it('returns the node', function () {
+      expect(subject()->getNode())->toBe($this->example_node);
     });
   });
 
-  describe('#getState', function () {
-    it('returns the state name', function () {
-      expect(subject()->getState())->toBe($this->state);
-    });
-  });
-
-  describe('#getThrowable', function () {
-    context('without throwable', function () {
-      it('returns null', function () {
-        expect(subject()->getThrowable())->toBe(null);
+  describe('#getThrowables', function () {
+    context('without throwables', function () {
+      it('returns an empty array', function () {
+        expect(subject()->getThrowables())->toBe([]);
       });
     });
 
     context('with a throwable passed to the constructor', function () {
-      let('throwable', new Exception);
+      let('throwables', [new Exception]);
 
-      it('returns the throwable', function () {
-        expect(subject()->getThrowable())->toBe($this->throwable);
+      it('returns the throwables', function () {
+        expect(subject()->getThrowables())->toBe($this->throwables);
+      });
+    });
+  });
+
+  describe('#isSuccessful', function () {
+    context('without throwables', function () {
+      it('returns true', function () {
+        expect(subject()->isSuccessful())->toBe(true);
+      });
+    });
+
+    context('with a throwable passed to the constructor', function () {
+      let('throwables', [new Exception]);
+
+      it('returns the throwables', function () {
+        expect(subject()->isSuccessful())->toBe(false);
       });
     });
   });

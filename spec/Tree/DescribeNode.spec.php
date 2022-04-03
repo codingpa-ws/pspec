@@ -12,11 +12,11 @@ describe(DescribeNode::class, function () {
 
   describe('#run', function () {
     it('prints on the app', function () {
-      subject()->run($this->mock_app, 'indent');
+      subject()->run($this->mock_app);
 
       $prints = $this->mock_app->getPrints();
       expect(count($prints))->toBe(1);
-      expect($prints[0]->getName())->toBe("indent$this->title");
+      expect($prints[0]->getNode())->toBe(subject());
     });
 
     context('with tests', function () {

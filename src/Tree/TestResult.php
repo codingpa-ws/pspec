@@ -2,33 +2,31 @@
 
 namespace CodingPaws\PSpec\Tree;
 
-use Throwable;
-
 class TestResult
 {
-  public const STATE_GROUP = "group";
-  public const STATE_SUCCESS = "success";
-  public const STATE_FAILURE = "failure";
-
   public function __construct(
-    private string $fullName,
-    private string $state,
-    private ?Throwable $throwable = null,
+    private Node $node,
+    private array $throwables = [],
   ) {
   }
 
-  public function getName(): string
+  public function getNode(): Node
   {
-    return $this->fullName;
+    return $this->node;
   }
 
-  public function getThrowable(): ?Throwable
+  public function getThrowables(): array
   {
-    return $this->throwable;
+    return $this->throwables;
   }
 
-  public function getState(): string
+  public function isSuccessful(): bool
   {
-    return $this->state;
+    return count($this->throwables) === 0;
+  }
+
+  public function isGroup(): bool
+  {
+    return $this->node instanceof DescribeNode;
   }
 }

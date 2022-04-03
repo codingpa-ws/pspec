@@ -13,7 +13,7 @@ class DescribeNode extends Node
 
   public function run(PSpec $app, string $indent = ""): void
   {
-    $app->print(new TestResult($indent . $this->title, TestResult::STATE_GROUP));
+    $app->print(new TestResult($this));
     parent::run($app, $indent);
   }
 

@@ -8,6 +8,8 @@ if (php_sapi_name() !== 'cli') {
   exit(1);
 }
 
+define('PSPEC_BASE_DIR', dirname(__DIR__));
+
 $file = $argv[1] ?? null;
 
 foreach ([__DIR__ . '/../../../../autoload.php', __DIR__ . '/../../vendor/autoload.php'] as $autoload) {

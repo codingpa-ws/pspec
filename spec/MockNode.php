@@ -17,7 +17,7 @@ class MockNode extends Node
 
   public function run(PSpec $app, string $indent = ""): void
   {
-    $app->print(new TestResult($this->name(), TestResult::STATE_SUCCESS));
+    $app->print(new TestResult($this));
     $this->runs++;
   }
 

@@ -15,6 +15,7 @@ abstract class Node
   private array $variables = [];
   private array $before = [];
   private array $after = [];
+  protected string $indent = '';
 
   public function __construct(private ?Node $parent = null)
   {
@@ -60,12 +61,26 @@ abstract class Node
     $this->children[] = $node;
   }
 
-  public function run(PSpec $app, string $indent = ""): void
+  public function run(PSpec $app): void
   {
     foreach ($this->children as $child) {
       $app->setCurrentScope($child);
-      $child->run($app, $this->parent ? "$indent  " : "");
+      if ($this->parent) {
+        $child->setIndent("$this->indent  ");
+      }
+
+      $child->run($app);
     }
+  }
+
+  public function setIndent(string $indent): void
+  {
+    $this->indent = $indent;
+  }
+
+  public function getIndent(): string
+  {
+    return $this->indent;
   }
 
   public function runBefores(Scope $scope): void

@@ -42,6 +42,7 @@ describe(Executor::class, function () {
         'toThrow',
         'toContain',
         'toExtend',
+        'toPrint',
       ]);
     });
   });

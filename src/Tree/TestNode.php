@@ -27,22 +27,40 @@ class TestNode extends Node
     return $this->scope;
   }
 
-  public function run(PSpec $tree, string $indent = ""): void
+  public function run(PSpec $tree): void
   {
-    $method = $this->test;
+    $errors = [];
+
     try {
       $this->runBefores($this->scope);
-      Adapter::get()?->startTest();
-      $method->bindTo($this->scope)();
-      Adapter::get()?->endTest();
+    } catch (\Throwable $th) {
+      $errors[] = $th;
+    }
+
+    try {
+      if (count($errors) === 0) {
+        $this->runTest();
+      }
+    } catch (\Throwable $th) {
+      $errors[] = $th;
+    }
+
+    try {
       $this->runAfters($this->scope);
     } catch (\Throwable $th) {
-      $this->stats->addTest($this, $th);
-      $tree->print(new TestResult($indent . $this->title, TestResult::STATE_FAILURE, $th));
-      return;
+      $errors[] = $th;
     }
-    $this->stats->addTest($this);
-    $tree->print(new TestResult($indent . $this->title, TestResult::STATE_SUCCESS));
+
+    $result = new TestResult($this, $errors);
+    $this->stats->addTest($result);
+    $tree->print($result);
+  }
+
+  private function runTest()
+  {
+    Adapter::get()?->startTest();
+    $this->test->bindTo($this->scope)();
+    Adapter::get()?->endTest();
   }
 
   public function name(): string
