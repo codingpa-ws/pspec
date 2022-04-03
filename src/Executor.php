@@ -7,6 +7,7 @@ use CodingPaws\PSpec\Assert\Matchers\ToBe;
 use CodingPaws\PSpec\Assert\Matchers\ToBeCallable;
 use CodingPaws\PSpec\Assert\Matchers\ToContain;
 use CodingPaws\PSpec\Assert\Matchers\ToExtend;
+use CodingPaws\PSpec\Assert\Matchers\ToPrint;
 use CodingPaws\PSpec\Assert\Matchers\ToThrow;
 use CodingPaws\PSpec\Config\Config;
 use CodingPaws\PSpec\Coverage\Adapter;
@@ -31,6 +32,7 @@ class Executor
     Expectation::extend(ToThrow::class);
     Expectation::extend(ToContain::class);
     Expectation::extend(ToExtend::class);
+    Expectation::extend(ToPrint::class);
   }
 
   public function registerCoverageAdapters(): void
