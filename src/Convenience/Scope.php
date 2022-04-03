@@ -45,8 +45,9 @@ class Scope
     $root = null;
 
     while ($node = $node->parent()) {
-      if ($node->name())
+      if ($node->name()) {
         $root = $node;
+      }
     }
 
     try {
