@@ -4,7 +4,6 @@ use CodingPaws\PSpec\Stats;
 use CodingPaws\PSpec\Tree\RootNode;
 
 describe(Stats::class, function () {
-  subject(fn () => new Stats);
   let('node', fn () => new RootNode);
   let('exception', new Exception('test message'));
 

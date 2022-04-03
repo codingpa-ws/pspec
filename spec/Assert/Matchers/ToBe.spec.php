@@ -3,7 +3,6 @@
 use CodingPaws\PSpec\Assert\Matchers\ToBe;
 
 describe(ToBe::class, function () {
-  subject(fn () => new ToBe());
   let('is_pass', fn () => subject()->match(...get('args'))->isPass());
 
   describe('#name', function () {
