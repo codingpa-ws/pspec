@@ -2,6 +2,7 @@
 
 use CodingPaws\PSpec\Stats;
 use CodingPaws\PSpec\Tree\RootNode;
+use CodingPaws\PSpec\Tree\TestResult;
 
 describe(Stats::class, function () {
   let('node', fn () => new RootNode);
@@ -9,7 +10,7 @@ describe(Stats::class, function () {
 
   describe("#addTest", function () {
     it('adds a test', function () {
-      subject()->addTest($this->node);
+      subject()->addTest(new TestResult($this->node, []));
 
       expect(subject()->countPasses())->toBe(1);
       expect(subject()->countFailures())->toBe(0);
@@ -17,7 +18,7 @@ describe(Stats::class, function () {
 
     context('with an error', function () {
       it('adds a test with a failure', function () {
-        subject()->addTest($this->node, $this->exception);
+        subject()->addTest(new TestResult($this->node, [$this->exception]));
 
         expect(subject()->countPasses())->toBe(0);
         expect(subject()->countFailures())->toBe(1);
@@ -28,8 +29,8 @@ describe(Stats::class, function () {
   describe('#merge', function () {
     it('returns a new, merged Stats object', function () {
       $other_stats = new Stats;
-      $other_stats->addTest($this->node, $this->exception);
-      subject()->addTest($this->node);
+      $other_stats->addTest(new TestResult($this->node, [$this->exception]));
+      subject()->addTest(new TestResult($this->node, []));
       $new_stats = subject()->merge($other_stats);
 
       expect($other_stats->countPasses())->toBe(0);
@@ -53,7 +54,7 @@ describe(Stats::class, function () {
 
     context('with failures', function () {
       it('prints the failures', function () {
-        subject()->addTest($this->node, $this->exception);
+        subject()->addTest(new TestResult($this->node, [$this->exception]));
 
         ob_start();
         subject()->printFailures();
@@ -64,9 +65,9 @@ describe(Stats::class, function () {
 
   describe('#countAll', function () {
     it('returns the number of all tests', function () {
-      subject()->addTest($this->node);
-      subject()->addTest($this->node);
-      subject()->addTest($this->node, $this->exception);
+      subject()->addTest(new TestResult($this->node));
+      subject()->addTest(new TestResult($this->node));
+      subject()->addTest(new TestResult($this->node, [$this->exception]));
 
       expect(subject()->countAll())->toBe(3);
     });

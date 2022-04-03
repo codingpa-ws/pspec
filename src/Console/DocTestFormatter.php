@@ -8,17 +8,24 @@ class DocTestFormatter extends TestFormatter
 {
   public function printTest(TestResult $result): void
   {
-    preg_match('/^(\s*)(.+)/', $result->getName(), $matches);
-    [,$indent, $name] = $matches;
+    $indent = $result->getNode()->getIndent();
+    $name = $result->getNode()->name();
 
     echo $indent;
 
-    echo match ($result->getState()) {
-      TestResult::STATE_FAILURE => "\e[31m✘ \e[0m",
-      TestResult::STATE_SUCCESS => "\e[32m✔ \e[0m",
-      default => '',
-    };
+    $this->printPrefix($result);
 
     echo $name . PHP_EOL;
+  }
+
+  private function printPrefix(TestResult $result): void
+  {
+    if ($result->isGroup()) {
+      return;
+    }
+
+    $prefix = $result->isSuccessful() ? "\e[32m✔ \e[0m" : "\e[31m✘ \e[0m";
+
+    echo $prefix;
   }
 }
