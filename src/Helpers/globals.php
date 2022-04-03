@@ -3,6 +3,10 @@
 use CodingPaws\PSpec\Assert\Expectation;
 use CodingPaws\PSpec\PSpec;
 
+if (!defined('PSPEC_BASE_DIR')) {
+  return;
+}
+
 function before(callable $callback): void
 {
   PSpec::before($callback);
