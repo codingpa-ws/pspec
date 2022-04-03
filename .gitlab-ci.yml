@@ -6,8 +6,8 @@ test:pspec:
   before_script:
     - apk add autoconf build-base
     - pecl install xdebug
-    - echo 'zend_extension=xdebug' > /usr/local/etc/php/php-cli.ini
-    - echo 'memory_limit = 256M' > /usr/local/etc/php/php-cli.ini
+    - echo 'zend_extension=xdebug' >> /usr/local/etc/php/php-cli.ini
+    - echo 'memory_limit = 256M' >> /usr/local/etc/php/php-cli.ini
     - composer install
   script: XDEBUG_MODE=coverage src/bin/pspec spec
 
