@@ -1,6 +1,10 @@
 {
   "name": "codingpaws/pspec",
-  "description": "A testing framework for PHP, influenced by RSpec and jest.",
+  "description": "A modern behavior-driven test framework, influenced by RSpec and jest.",
+  "keywords": [
+    "testing",
+    "unit-testing"
+  ],
   "type": "library",
   "license": "MIT",
   "autoload": {
