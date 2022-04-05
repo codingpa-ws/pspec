@@ -34,6 +34,9 @@ pages:
   script:
     - doctave build --release --allow-failed-checks
     - mv site public
+  environment:
+    name: docs
+    url: https://codingpaws.gitlab.io/pspec
   artifacts:
     paths:
       - public
