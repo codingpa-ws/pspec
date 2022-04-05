@@ -32,7 +32,7 @@ pages:
     - rm doctave*.tar.gz
     - mv doctave*/doctave /bin
   script:
-    - doctave build --release
+    - doctave build --release --allow-failed-checks
     - mv site public
   artifacts:
     paths:
