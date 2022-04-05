@@ -25,7 +25,8 @@ lint:
 pages:
   image: ubuntu:latest
   before_script:
-    - apt install wget -y
+    - apt-get update
+    - apt-get install wget -y
     - wget https://github.com/Doctave/doctave/releases/download/0.4.2/doctave-0.4.2-x86_64-apple-darwin.tar.gz
     - tar xvf doctave*.tar.gz
     - rm doctave*.tar.gz
