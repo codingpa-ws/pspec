@@ -23,7 +23,7 @@ lint:
     - tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run --diff
 
 pages:
-  image: alpine:latest
+  image: ubuntu:latest
   before_script:
     - wget https://github.com/Doctave/doctave/releases/download/0.4.2/doctave-0.4.2-x86_64-apple-darwin.tar.gz
     - tar xvf doctave*.tar.gz
