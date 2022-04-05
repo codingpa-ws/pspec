@@ -1,55 +1,50 @@
+---
+title: PSpec
+---
+
 # PSpec
 
-PSpec is a modern behavior-driven framework for PHP, influenced by [RSpec][rspec] and
-[jest][jest].
-
-This project is experimental and still needs a lot of work.
+PSpec is a modern behavior-driven framework for PHP, influenced by
+[RSpec][rspec] and [jest][jest].
 
 [rspec]: https://rspec.info/
 [jest]: https://jestjs.io/
 
-## Example
+## Structure
+
+PSpec allows you to write tests in a declarative way. You use the
+`describe` and `it` functions to express behavior. Do it just like you
+would when explaining it to a co-worker (or rubber ducky :duck:) in a
+meeting.
+
+```plaintext
+Describe a car
+  It can drive to an address
+```
 
 ```php
-// src/Counter.php
-class Counter {
-  public int $value = 0;
+describe(Car::class, function () {
+  it('can drive to an address', function () {
+    $car = new Car;
 
-  function increment() {
-    $this->value++;
-  }
-}
+    $car->driveTo('123 Main St');
 
-// spec/Counter.spec.php
-describe(Counter::class, function () {
-  subject(fn () => new Counter);
-
-  let('base_value', 10);
-
-  before(function () {
-    subject()->value = $this->base_value;
-  });
-
-  describe('#increment', function () {
-    it('increments by 1', function () {
-      expect(subject()->value)->toBe($this->base_value);
-
-      subject()->increment();
-
-      expect(subject()->value)->toBe($this->base_value + 1);
-    });
+    expect($car->getAddress())->toBe('123 Main St');
   });
 });
 ```
 
+:point_right: Read more about [PSpec’s structure](/structure).
+
 ## Getting started
 
-PSpec relies on [Composer][composer] as package manager to be installed.
+You can install PSpec by using [Composer][composer], the PHP package
+manager.
 
 1. Install PSpec: `composer require --dev codingpaws/pspec`
 1. In your project root, create a `spec` directory
 1. For a class in your project, for example `Counter`, create a file `spec/Counter.spec.php`
-1. Write some tests, like [the example](#example)
+1. Write some tests, like [the example](#structure)
 1. Run PSpec: `vendor/bin/pspec`
 
 [composer]: https://getcomposer.org/
