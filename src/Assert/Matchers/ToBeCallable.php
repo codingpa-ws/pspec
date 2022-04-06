@@ -9,10 +9,8 @@ class ToBeCallable extends Matcher
     return "toBeCallable";
   }
 
-  public function match(mixed $received, mixed ...$args): MatchResult
+  protected function match(mixed $received): MatchResult
   {
-    $this->assert(count($args) === 0, 'expect()->toBeCallable() doesn’t accept parameters.');
-
     $ok = is_callable($received);
 
     return new MatchResult($this->generateFor([

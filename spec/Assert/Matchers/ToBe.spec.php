@@ -3,7 +3,7 @@
 use CodingPaws\PSpec\Assert\Matchers\ToBe;
 
 describe(ToBe::class, function () {
-  let('is_pass', fn () => subject()->match(...get('args'))->isPass());
+  let('is_pass', fn () => subject()->execute(...get('args'))->isPass());
 
   describe('#name', function () {
     it('returns toBe', function () {
@@ -12,22 +12,6 @@ describe(ToBe::class, function () {
   });
 
   describe('#match', function () {
-    context('with no arguments', function () {
-      it('throws an exception', function () {
-        expect(function () {
-          $this->subject->match(null);
-        })->toThrow(AssertionError::class);
-      });
-    });
-
-    context('with more than one arguments', function () {
-      it('throws an exception', function () {
-        expect(function () {
-          $this->subject->match(null, 1, 2);
-        })->toThrow(AssertionError::class);
-      });
-    });
-
     context('for identical values', function () {
       foreach ([
         'arrays' => [[1, 2, 3], [1, 2, 3]],
@@ -46,11 +30,13 @@ describe(ToBe::class, function () {
     });
 
     context('for objects', function () {
-      it('returns a non-passing result', function () {
-        $obj1 = (object)[];
-        $obj2 = (object)[];
+      let('args', [
+        (object)[],
+        (object)[],
+      ]);
 
-        expect($this->subject->match($obj1, $obj2)->isPass())->toBe(false);
+      it('returns a non-passing result', function () {
+        expect($this->is_pass)->toBe(false);
       });
     });
 

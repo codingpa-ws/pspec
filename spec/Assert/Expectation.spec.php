@@ -140,7 +140,7 @@ describe(Expectation::class, function () {
     });
 
     context('with an array', function () {
-      let('value', [1,2,3]);
+      let('value', [1, 2, 3]);
 
       context('when the value contains the number', function () {
         it('throws nothing', function () {

@@ -17,7 +17,7 @@ class D
 }
 
 describe(ToExtend::class, function () {
-  let('is_pass', fn () => subject()->match(...get('args'))->isPass());
+  let('is_pass', fn () => subject()->execute(...get('args'))->isPass());
 
   describe('#name', function () {
     it('returns toExtend', function () {
@@ -30,22 +30,6 @@ describe(ToExtend::class, function () {
   });
 
   describe('#match', function () {
-    context('with no arguments', function () {
-      it('throws an exception', function () {
-        expect(function () {
-          $this->subject->match(null);
-        })->toThrow(AssertionError::class);
-      });
-    });
-
-    context('with more than one arguments', function () {
-      it('throws an exception', function () {
-        expect(function () {
-          $this->subject->match(null, 1, 2);
-        })->toThrow(AssertionError::class);
-      });
-    });
-
     context('with a class that extends', function () {
       foreach ([
         'the direct parent' => [new B, A::class],

@@ -45,7 +45,7 @@ class Expectation
   public function __call($name, $arguments)
   {
     $matcher = $this->getMatcherOrThrow($name);
-    $result = $matcher->match($this->actual, ...$arguments);
+    $result = $matcher->execute($this->actual, ...$arguments);
 
     $this->assert($result->isPass($this->isNot), $result->getMessage());
   }

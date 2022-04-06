@@ -4,13 +4,11 @@ namespace CodingPaws\PSpec\Assert\Matchers;
 
 class ToBe extends Matcher
 {
-  public function match(mixed $received, mixed ...$args): MatchResult
+  protected function match(mixed $received, mixed $expected): MatchResult
   {
-    $this->assert(count($args) === 1, 'toBe(...) expects exactly 1 argument.');
+    $pass = $received === $expected;
 
-    $pass = $received === $args[0];
-
-    $expected = $this->dumps($args[0]);
+    $expected = $this->dumps($expected);
     $actual = $this->dumps($received);
 
     return new MatchResult($this->generateFor([

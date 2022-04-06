@@ -4,10 +4,8 @@ namespace CodingPaws\PSpec\Assert\Matchers;
 
 class ToContain extends Matcher
 {
-  public function match(mixed $received, mixed ...$args): MatchResult
+  protected function match(string|array $received, mixed $expected): MatchResult
   {
-    $this->assert(count($args) === 1, 'toContain(...) expects exactly 1 argument.');
-    [$expected] = $args;
     $this->assert(is_string($received) || is_array($received), 'toContain(): actual value must be string or array');
 
     $pass = is_string($received) ? str_contains($received, $expected) : in_array($expected, $received);

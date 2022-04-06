@@ -6,10 +6,8 @@ use Throwable;
 
 class ToThrow extends Matcher
 {
-  public function match(mixed $received, mixed ...$args): MatchResult
+  protected function match(mixed $received, mixed $throwable = null): MatchResult
   {
-    $this->assert(count($args) <= 1, 'expect()->toThrow() accept one or no argument');
-
     if ($result = $this->checkCallable($received)) {
       return $result;
     }
@@ -21,11 +19,11 @@ class ToThrow extends Matcher
       $actual_class = $actual::class;
     }
 
-    $pass = (count($args) === 0 && !is_null($actual_class)) || (count($args) && $actual_class === $args[0]);
+    $pass = (func_num_args() === 1 && !is_null($actual_class)) || (func_num_args() > 1 && $actual_class === $throwable);
 
     return new MatchResult(
       $this->generateFor([
-        'expected' => (count($args) ? $args[0] : 'any exception') . ' ' . ($this->isNot() ? 'not ' : '') . 'to be thrown',
+        'expected' => (func_num_args() > 1 ? $throwable : 'any exception') . ' ' . ($this->isNot() ? 'not ' : '') . 'to be thrown',
         'was thrown' => $actual_class,
       ], 'expect()->toThrow()'),
       $pass
@@ -34,7 +32,7 @@ class ToThrow extends Matcher
 
   private function checkCallable(mixed $received): ?MatchResult
   {
-    $result = (new ToBeCallable)->match($received);
+    $result = (new ToBeCallable)->execute($received);
 
     if (!$result->isPass()) {
       return $result;
