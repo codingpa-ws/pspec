@@ -3,7 +3,7 @@
 use CodingPaws\PSpec\Assert\Matchers\ToPrint;
 
 describe(ToPrint::class, function () {
-  let('is_pass', fn () => subject()->match(...get('args'))->isPass());
+  let('is_pass', fn () => subject()->execute(...get('args'))->isPass());
   let('args', fn () => [function () {
     echo get('output');
   }, get('expectation')]);

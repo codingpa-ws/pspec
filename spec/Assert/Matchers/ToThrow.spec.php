@@ -3,7 +3,7 @@
 use CodingPaws\PSpec\Assert\Matchers\ToThrow;
 
 describe(ToThrow::class, function () {
-  let('is_pass', fn () => subject()->match(...get('args'))->isPass());
+  let('is_pass', fn () => subject()->execute(...get('args'))->isPass());
 
   describe('#name', function () {
     it('returns toThrow', function () {
@@ -12,21 +12,13 @@ describe(ToThrow::class, function () {
   });
 
   describe('#match', function () {
-    context('with more than one argument', function () {
-      it('throws an exception', function () {
-        expect(function () {
-          $this->subject->match(null, AssertionError::class, 'Test error');
-        })->toThrow(AssertionError::class);
-      });
-    });
-
     context('with a callable that throws', function () {
       let('callable', fn () => function () {
         throw new Exception;
       });
 
       it('returns true', function () {
-        expect($this->subject->match($this->callable)->isPass())->toBe(true);
+        expect($this->subject->execute($this->callable)->isPass())->toBe(true);
       });
 
       context('with the correct exception as argument', function () {
@@ -70,7 +62,7 @@ describe(ToThrow::class, function () {
 
     context('with a non-callable value', function () {
       it('returns false', function () {
-        expect($this->subject->match([])->isPass())->toBe(false);
+        expect($this->subject->execute([])->isPass())->toBe(false);
       });
     });
   });

@@ -4,11 +4,8 @@ namespace CodingPaws\PSpec\Assert\Matchers;
 
 class ToExtend extends Matcher
 {
-  public function match(mixed $received, mixed ...$args): MatchResult
+  protected function match(mixed $received, mixed $class): MatchResult
   {
-    $this->assert(count($args) === 1, 'toContain(...) expects exactly 1 argument.');
-    [$class] = $args;
-
     $parents = class_parents($received);
     $pass = in_array($class, $parents);
 

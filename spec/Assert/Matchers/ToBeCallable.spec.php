@@ -3,7 +3,7 @@
 use CodingPaws\PSpec\Assert\Matchers\ToBeCallable;
 
 describe(ToBeCallable::class, function () {
-  let('is_pass', fn () => subject()->match(...get('args'))->isPass());
+  let('is_pass', fn () => subject()->execute(...get('args'))->isPass());
 
   describe('#name', function () {
     it('returns toBeCallable', function () {
@@ -12,14 +12,6 @@ describe(ToBeCallable::class, function () {
   });
 
   describe('#match', function () {
-    context('with more than one argument', function () {
-      it('throws an exception', function () {
-        expect(function () {
-          $this->subject->match(null, 1);
-        })->toThrow(AssertionError::class);
-      });
-    });
-
     context('with a callable value', function () {
       let('args', [fn () => 1]);
       it('returns true', function () {

@@ -4,7 +4,7 @@ namespace CodingPaws\PSpec\Assert\Matchers;
 
 class ToPrint extends Matcher
 {
-  public function match(mixed $received, mixed ...$args): MatchResult
+  protected function match(mixed $received, mixed ...$args): MatchResult
   {
     $this->assert(count($args) === 1, 'expect()->toPrint() accepts exactly one argument');
 
@@ -29,7 +29,7 @@ class ToPrint extends Matcher
 
   private function checkCallable(mixed $received): ?MatchResult
   {
-    $result = (new ToBeCallable)->match($received);
+    $result = (new ToBeCallable)->execute($received);
 
     if (!$result->isPass()) {
       return $result;
