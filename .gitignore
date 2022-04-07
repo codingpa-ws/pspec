@@ -2,3 +2,4 @@ vendor/
 .vscode/
 .php-cs-fixer.cache
 /site/
+junit.xml
