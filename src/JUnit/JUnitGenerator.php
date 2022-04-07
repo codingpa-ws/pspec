@@ -4,7 +4,6 @@ namespace CodingPaws\PSpec\JUnit;
 
 use CodingPaws\PSpec\Tree\TestResult;
 use DateTime;
-use Exception;
 
 class JUnitGenerator
 {

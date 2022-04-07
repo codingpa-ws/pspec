@@ -97,8 +97,6 @@ class PSpec
     return clone $this->config;
   }
 
-
-
   private function handleJUnitLogging(DateTimeInterface $start): void
   {
     if (!$this->generator) {
