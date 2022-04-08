@@ -13,6 +13,7 @@ use RuntimeException;
  * @method void toThrow(\Throwable $what = null)
  * @method void toContain(mixed $what)
  * @method void toExtend(string $class)
+ * @method void toPrint(string $what, bool $exact = false)
  */
 class Expectation
 {

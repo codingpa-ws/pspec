@@ -4,9 +4,10 @@ use CodingPaws\PSpec\Assert\Matchers\ToPrint;
 
 describe(ToPrint::class, function () {
   let('is_pass', fn () => subject()->execute(...get('args'))->isPass());
+  let('exact', false);
   let('args', fn () => [function () {
     echo get('output');
-  }, get('expectation')]);
+  }, get('expectation'), 'exact' => get('exact')]);
 
   describe('#name', function () {
     it('returns toPrint', function () {
@@ -15,16 +16,6 @@ describe(ToPrint::class, function () {
   });
 
   describe('#match', function () {
-    context('without arguments', function () {
-      let('args', [null]);
-
-      it('throws an exception', function () {
-        expect(function () {
-          $this->is_pass;
-        })->toThrow(AssertionError::class);
-      });
-    });
-
     context('with a non-callable argument', function () {
       let('args', [null, 'test']);
 
@@ -48,6 +39,24 @@ describe(ToPrint::class, function () {
 
       it('returns true', function () {
         expect($this->is_pass)->toBe(false);
+      });
+    });
+
+    context('with an exact match', function () {
+      let('output', 'hello world!');
+      let('expectation', 'hello world!');
+      let('exact', true);
+
+      it('returns true', function () {
+        expect($this->is_pass)->toBe(true);
+      });
+
+      context('that does not match', function () {
+        let('expectation', 'hello');
+
+        it('returns false', function () {
+          expect($this->is_pass)->toBe(false);
+        });
       });
     });
   });

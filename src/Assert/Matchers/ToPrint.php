@@ -4,10 +4,8 @@ namespace CodingPaws\PSpec\Assert\Matchers;
 
 class ToPrint extends Matcher
 {
-  protected function match(mixed $received, mixed ...$args): MatchResult
+  protected function match(mixed $received, string $what, bool $exact = false): MatchResult
   {
-    $this->assert(count($args) === 1, 'expect()->toPrint() accepts exactly one argument');
-
     if ($result = $this->checkCallable($received)) {
       return $result;
     }
@@ -16,12 +14,12 @@ class ToPrint extends Matcher
     ($received)();
     $content = ob_get_clean();
 
-    $pass = str_contains($content, $args[0]);
+    $pass = $exact ? $content === $what : str_contains($content, $what);
 
     return new MatchResult(
       $this->generateFor([
         'expected printed text' => $this->dumps($content),
-        'to contain' => $this->dumps($args[0]),
+        $exact ? 'to be exactly' : 'to contain' => $this->dumps($what),
       ], 'expect()->toPrint()'),
       $pass
     );
