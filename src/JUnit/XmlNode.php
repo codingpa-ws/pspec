@@ -36,6 +36,6 @@ class XmlNode
       implode('', array_map(function ($node) {
         return (string) $node;
       }, $this->children)) .
-      "$this->text</$this->type>";
+      "$this->text</$this->type>\n";
   }
 }

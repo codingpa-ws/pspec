@@ -19,6 +19,7 @@ class JUnitGenerator
     if ($result->isGroup()) {
       return;
     }
+
     $this->tests[] = $result;
   }
 
