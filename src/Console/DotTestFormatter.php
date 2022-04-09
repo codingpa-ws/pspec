@@ -23,7 +23,7 @@ class DotTestFormatter extends TestFormatter
 
   private function getFailureDot(): string
   {
-    $color = !$this->last_state ? '' : "\e[31m";
+    $color = $this->last_state === false ? '' : "\e[31m";
     return $color . 'F';
   }
 
