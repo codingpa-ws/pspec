@@ -16,6 +16,9 @@ test:pspec:
 
 test:examples:
   script: src/bin/pspec examples
+  artifacts:
+    reports:
+      junit: junit.xml
 
 lint:
   before_script:
