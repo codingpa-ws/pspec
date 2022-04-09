@@ -60,6 +60,17 @@ describe(Config::class, function () {
       expect($this->subject->getFormatter()::class)->toBe(DotTestFormatter::class);
     });
   });
+
+  describe('JUnit file selection', function () {
+    it('sets the JUnit file', function () {
+      $this->subject->logJUnit('../tests/junit.xml');
+      expect($this->subject->getJUnitFile())->toBe('../tests/junit.xml');
+    });
+
+    it('is null by default', function () {
+      expect($this->subject->getJUnitFile())->toBe(null);
+    });
+  });
 });
 
 class ExampleFormatter extends TestFormatter

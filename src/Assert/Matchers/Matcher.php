@@ -6,6 +6,7 @@ use ArgumentCountError;
 use CodingPaws\PSpec\Traits\Asserts;
 use ReflectionClass;
 use ReflectionFunction;
+use Throwable;
 
 abstract class Matcher
 {
@@ -61,11 +62,44 @@ abstract class Matcher
       return "$fun->name";
     }
 
-    ob_start();
-    debug_zval_dump($value);
-    $parts = str_replace(["\n", "\e"], ["\\n", "\\e"], trim(preg_replace('/refcount\(\d+\)/', '', ob_get_contents())));
-    ob_end_clean();
+    if (is_int($value) || is_float($value)) {
+      return (string) $value;
+    }
 
-    return trim($parts);
+    if (is_string($value)) {
+      return "'$value'";
+    }
+
+    if (is_object($value) || $this->isAssocArray($value)) {
+      $parts = [];
+
+      foreach ($value as $k => $v) {
+        $parts[] = $this->dumps($k) . ': ' . $this->dumps($v);
+      }
+
+      if ($value instanceof Throwable) {
+        $parts[] = $this->dumps('message') . ': ' . $this->dumps($value->getMessage());
+      }
+
+      return (is_array($value) ? 'array' : $value::class) . '{' . join(', ', $parts) . '}';
+    }
+
+    if (is_array($value)) {
+      $contents = join(', ', array_map(fn ($v) => $this->dumps($v), $value));
+      return "[$contents]";
+    }
+
+    ob_start();
+    var_dump($value);
+    return join(' ', explode("\n", ob_get_clean()));
+  }
+
+  private function isAssocArray(mixed $array): bool
+  {
+    if (!is_array($array) || $array === []) {
+      return false;
+    }
+
+    return array_keys($array) !== range(0, count($array) - 1);
   }
 }

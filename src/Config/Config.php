@@ -11,6 +11,7 @@ class Config
 {
   private array $dirs = [];
   private TestFormatter $formatter;
+  private ?string $junitFile = null;
 
   public static function new(): self
   {
@@ -48,6 +49,13 @@ class Config
     return $this;
   }
 
+  public function logJUnit(string $filename): self
+  {
+    $this->junitFile = $filename;
+
+    return $this;
+  }
+
   public function getFormatter(): TestFormatter
   {
     return $this->formatter;
@@ -61,5 +69,10 @@ class Config
   public function getDirectories(): array
   {
     return $this->dirs;
+  }
+
+  public function getJUnitFile(): ?string
+  {
+    return $this->junitFile;
   }
 }

@@ -6,4 +6,5 @@ use CodingPaws\PSpec\Console\DotTestFormatter;
 
 return Config::new()
   ->addDirectory('examples')
-  ->setFormatter(getenv('CI') ? new DocTestFormatter : new DotTestFormatter);
+  ->setFormatter(getenv('CI') ? new DocTestFormatter : new DotTestFormatter)
+  ->logJUnit('junit.xml');

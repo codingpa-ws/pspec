@@ -7,6 +7,7 @@ use Closure;
 use CodingPaws\PSpec\Convenience\Scope;
 use CodingPaws\PSpec\Coverage\Adapter;
 use CodingPaws\PSpec\PSpec;
+use DateTime;
 
 class TestNode extends Node
 {
@@ -29,6 +30,7 @@ class TestNode extends Node
 
   public function run(PSpec $tree): void
   {
+    $start = new DateTime;
     $errors = [];
 
     try {
@@ -51,7 +53,7 @@ class TestNode extends Node
       $errors[] = $th;
     }
 
-    $result = new TestResult($this, $errors);
+    $result = new TestResult($this, $errors, $start->diff(new DateTime)->f * 1000);
     $this->stats->addTest($result);
     $tree->print($result);
   }

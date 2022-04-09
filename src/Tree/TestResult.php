@@ -7,6 +7,7 @@ class TestResult
   public function __construct(
     private Node $node,
     private array $throwables = [],
+    private float $milliseconds = 0,
   ) {
   }
 
@@ -28,5 +29,10 @@ class TestResult
   public function isGroup(): bool
   {
     return $this->node instanceof DescribeNode;
+  }
+
+  public function getDurationInMilliseconds(): float
+  {
+    return $this->milliseconds;
   }
 }

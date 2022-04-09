@@ -4,6 +4,7 @@ namespace CodingPaws\PSpec;
 
 use Closure;
 use CodingPaws\PSpec\Config\Config;
+use CodingPaws\PSpec\JUnit\JUnitGenerator;
 use CodingPaws\PSpec\Tree\Node;
 use CodingPaws\PSpec\Tree\TestResult;
 use CodingPaws\PSpec\Tree\Tree;
@@ -15,6 +16,7 @@ class PSpec
   private static ?self $instance = null;
   private Node $currentScope;
   private Tree $tree;
+  private ?JUnitGenerator $generator;
 
   public function __construct(private Config $config)
   {
@@ -23,6 +25,8 @@ class PSpec
     }
 
     $this->tree = new Tree($this);
+    $junitfile = $this->config->getJUnitFile();
+    $this->generator = $junitfile ? new JUnitGenerator($junitfile) : null;
 
     self::$instance = $this;
   }
@@ -68,6 +72,7 @@ class PSpec
   public function runAllTests(): Stats
   {
     self::$instance->tree->getRoot()->run(app: $this);
+
     return self::$instance->tree->getRoot()->stats();
   }
 
@@ -80,13 +85,24 @@ class PSpec
   {
     if ($result instanceof Stats) {
       $this->config->getFormatter()->printResult($result, $start);
+      $this->handleJUnitLogging($start);
     } else {
       $this->config->getFormatter()->printTest($result);
+      $this->generator?->addResult($result);
     }
   }
 
   public function getConfig(): Config
   {
     return clone $this->config;
+  }
+
+  private function handleJUnitLogging(DateTimeInterface $start): void
+  {
+    if (!$this->generator) {
+      return;
+    }
+
+    $this->generator->execute($start);
   }
 }

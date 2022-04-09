@@ -10,9 +10,15 @@ test:pspec:
     - echo 'memory_limit = 256M' >> /usr/local/etc/php/php-cli.ini
     - composer install
   script: XDEBUG_MODE=coverage src/bin/pspec spec
+  artifacts:
+    reports:
+      junit: junit.xml
 
 test:examples:
   script: src/bin/pspec examples
+  artifacts:
+    reports:
+      junit: junit.xml
 
 lint:
   before_script:
