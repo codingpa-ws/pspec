@@ -26,8 +26,8 @@ describe(JUnitGenerator::class, function () {
   });
 
   it('generates a single test result for one test', function () {
-    expect($this->result)->toContain('<testsuites name="PSpec" tests="1" time="');
-    expect($this->result)->toContain('timestamp="2020-01-01T00:00:00+00:00" failures="1"><testsuite name="MockNode"><testcase name="MockNode" time="1.39453000"><failure message="Something went wrong" type="Exception">Exception: Something went wrong in');
+    expect($this->result)->toContain('<testsuites name="pspec" tests="1" time="');
+    expect($this->result)->toContain('timestamp="2020-01-01T00:00:00+00:00" failures="1"><testsuite name="pspec"><testcase classname="mocknode" name="MockNode MockNode" time="1.39453000"><failure message="Something went wrong" type="Exception">Exception: Something went wrong in');
   });
 
   context('with another successful test', function () {
