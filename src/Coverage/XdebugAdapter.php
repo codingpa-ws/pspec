@@ -42,7 +42,7 @@ class XdebugAdapter extends Adapter
   {
     $cov = xdebug_get_code_coverage();
     $cov = array_filter($cov, function ($value, $key) {
-      return !str_contains($key, '/vendor/') && !str_ends_with($key, '.spec.php');
+      return !str_contains($key, '/vendor/') && !str_ends_with($key, '.spec.php') && !str_ends_with($key, DIRECTORY_SEPARATOR . '.pspec.php');
     }, ARRAY_FILTER_USE_BOTH);
 
     return array_map(function ($value) {
