@@ -8,12 +8,12 @@ use RuntimeException;
 
 /**
  * @property self $not
- * @method void toBe(mixed $what)
- * @method void toBeCallable(mixed $what)
- * @method void toThrow(\Throwable $what = null)
- * @method void toContain(mixed $what)
- * @method void toExtend(string $class)
- * @method void toPrint(string $what, bool $exact = false)
+ * @method self toBe(mixed $what)
+ * @method self toBeCallable(mixed $what)
+ * @method self toThrow(\Throwable $what = null)
+ * @method self toContain(mixed $what)
+ * @method self toExtend(string $class)
+ * @method self toPrint(string $what, bool $exact = false)
  */
 class Expectation
 {
@@ -43,12 +43,14 @@ class Expectation
     throw new RuntimeException('Undefined property: ' . self::class . "::$name");
   }
 
-  public function __call($name, $arguments)
+  public function __call($name, $arguments): self
   {
     $matcher = $this->getMatcherOrThrow($name);
     $result = $matcher->execute($this->actual, ...$arguments);
 
     $this->assert($result->isPass($this->isNot), $result->getMessage());
+
+    return $this;
   }
 
   private function getMatcherOrThrow(string $name): Matcher
