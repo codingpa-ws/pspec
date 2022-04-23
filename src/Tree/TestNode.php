@@ -12,6 +12,7 @@ use DateTime;
 class TestNode extends Node
 {
   private Scope $scope;
+
   public function __construct(Node $parent, private string $title, private Closure $test)
   {
     parent::__construct($parent);
