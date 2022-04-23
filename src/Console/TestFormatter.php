@@ -29,7 +29,7 @@ abstract class TestFormatter
     }
   }
 
-  public function printCoverage(array $coverage, float $total): void
+  private function printCoverage(array $coverage, float $total): void
   {
     $replace_cwd = fn ($f) => str_replace(getcwd(), '.', $f);
 
