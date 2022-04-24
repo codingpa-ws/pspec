@@ -9,7 +9,6 @@ use CodingPaws\PSpec\Tree\Node;
 use CodingPaws\PSpec\Tree\TestResult;
 use CodingPaws\PSpec\Tree\Tree;
 use DateTimeInterface;
-use RuntimeException;
 
 class PSpec
 {
@@ -20,14 +19,18 @@ class PSpec
 
   public function __construct(private Config $config)
   {
-    if (self::$instance && !array_key_exists('PSPEC_ALLOW_MULTIPLE_INSTANCES', $GLOBALS)) {
-      throw new RuntimeException('Only one PSpec instance can be created');
-    }
-
     $this->tree = new Tree($this);
     $junitfile = $this->config->getJUnitFile();
     $this->generator = $junitfile ? new JUnitGenerator($junitfile) : null;
+  }
 
+  public static function instance(): ?PSpec
+  {
+    return self::$instance;
+  }
+
+  public function setAsInstance(): void
+  {
     self::$instance = $this;
   }
 

@@ -23,6 +23,7 @@ class Executor
   {
     $this->start = date_create();
     $this->app = new PSpec($this->loadConfig());
+    $this->app->setAsInstance();
   }
 
   public function registerMatchers(): void

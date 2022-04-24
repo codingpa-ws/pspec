@@ -70,6 +70,9 @@ class Stats
     $s = "";
     $offset = $error instanceof AssertionError ? 1 : 0;
     $error_line = $error->getTrace()[$offset];
+    if (!array_key_exists('file', $error_line)) {
+      return "  Unknown exception: $error";
+    }
     $error_file_contents = file_get_contents($error_line['file']);
     $lines = explode(PHP_EOL, $error_file_contents);
     $line = $lines[$error_line['line'] - 1];
