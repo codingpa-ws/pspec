@@ -8,24 +8,10 @@ use CodingPaws\PSpec\PSpec;
 
 describe(Executor::class, function () {
   subject(fn () => new Executor(__DIR__ . '/../examples'));
-
-  before(function () {
-    $GLOBALS['PSPEC_ALLOW_MULTIPLE_INSTANCES'] = true;
-
-    $pspec = new ReflectionClass(PSpec::class);
-    $instance = $pspec->getProperty('instance');
-    $instance->setAccessible(true);
-    $GLOBALS['PSPEC_INSTANCE'] = $instance->getValue();
-  });
+  let('instance', PSpec::instance());
 
   after(function () {
-    unset($GLOBALS['PSPEC_ALLOW_MULTIPLE_INSTANCES']);
-
-    $pspec = new ReflectionClass(PSpec::class);
-    $instance = $pspec->getProperty('instance');
-    $instance->setAccessible(true);
-
-    $instance->setValue($GLOBALS['PSPEC_INSTANCE']);
+    $this->instance->setAsInstance();
   });
 
   describe('#registerMatches', function () {
