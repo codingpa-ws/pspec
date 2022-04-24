@@ -43,26 +43,6 @@ describe(Stats::class, function () {
     });
   });
 
-  describe('#printFailures', function () {
-    context('without failures', function () {
-      it('prints nothing', function () {
-        ob_start();
-        subject()->printFailures();
-        expect(ob_get_clean())->toBe('');
-      });
-    });
-
-    context('with failures', function () {
-      it('prints the failures', function () {
-        subject()->addTest(new TestResult($this->node, [$this->exception]));
-
-        ob_start();
-        subject()->printFailures();
-        expect(ob_get_clean())->toContain('Exception: ' . $this->exception->getMessage());
-      });
-    });
-  });
-
   describe('#countAll', function () {
     it('returns the number of all tests', function () {
       subject()->addTest(new TestResult($this->node));
