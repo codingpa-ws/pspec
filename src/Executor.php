@@ -64,6 +64,10 @@ class Executor
     $this->requireAll($files);
     $stats = $this->test();
     $this->printResults($stats);
+
+    if ($stats->countFailures() > 0) {
+      exit(1);
+    }
   }
 
   private function parse(): array
