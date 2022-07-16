@@ -92,7 +92,7 @@ abstract class TestFormatter
     $lines = explode(PHP_EOL, $error_file_contents);
     $line = $lines[$error_line['line'] - 1];
 
-    $trace = array_filter($error->getTrace(), fn ($t) => !str_starts_with($t['file'], PSPEC_BASE_DIR));
+    $trace = array_filter($error->getTrace(), fn ($t) => array_key_exists('file', $t) && !str_starts_with($t['file'], PSPEC_BASE_DIR));
 
     if (count($trace) === 0) {
       $trace = $error->getTrace();
