@@ -28,4 +28,12 @@ describe(Variable::class, function () {
       expect(subject()->computeValue())->toBe($this->actual_value);
     });
   });
+
+  context('with a string where a function has the same name', function () {
+    let('value', 'get');
+
+    it('returns the literal string value', function () {
+      expect(subject()->computeValue())->toBe('get');
+    });
+  });
 });
