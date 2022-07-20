@@ -15,7 +15,7 @@ class Variable
 
   public function computeValue(): mixed
   {
-    if (is_callable($this->value)) {
+    if (!is_string($this->value) && is_callable($this->value)) {
       return ($this->value)();
     }
 
