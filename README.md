@@ -60,3 +60,10 @@ one unauthenticated request, it’s hard to understand.
 In PSpec, tests are nested under real-world conditions, such as being
 signed-in or when a network error occurs. You use `describe` blocks to
 organize tests.
+
+## Further reading
+
+- 🔧 [Configuration](https://codingpaws.gitlab.io/pspec/configuration)
+- 🪝 [Hooks](https://codingpaws.gitlab.io/pspec/hooks)
+- 🧪 [Matchers and assertions](https://codingpaws.gitlab.io/pspec/matchers)
+- 🏗️ [Test file structure](https://codingpaws.gitlab.io/pspec/structure)
