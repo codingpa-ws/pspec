@@ -6,6 +6,7 @@ use BadFunctionCallException;
 use Closure;
 use CodingPaws\PSpec\Convenience\Scope;
 use CodingPaws\PSpec\Coverage\Adapter;
+use CodingPaws\PSpec\Pipeline;
 use CodingPaws\PSpec\PSpec;
 use DateTime;
 
@@ -32,24 +33,15 @@ class TestNode extends Node
   public function run(PSpec $tree): void
   {
     $start = new DateTime;
+
+    $pipeline = (new Pipeline)
+      ->send($this)
+      ->pipeAll($this->getHooks($this->scope));
+
     $errors = [];
 
     try {
-      $this->runBefores($this->scope);
-    } catch (\Throwable $th) {
-      $errors[] = $th;
-    }
-
-    try {
-      if (count($errors) === 0) {
-        $this->runTest();
-      }
-    } catch (\Throwable $th) {
-      $errors[] = $th;
-    }
-
-    try {
-      $this->runAfters($this->scope);
+      $errors = $pipeline->run();
     } catch (\Throwable $th) {
       $errors[] = $th;
     }
@@ -59,7 +51,7 @@ class TestNode extends Node
     $tree->print($result);
   }
 
-  private function runTest()
+  public function __invoke()
   {
     Adapter::get()?->startTest();
     $this->test->bindTo($this->scope)();

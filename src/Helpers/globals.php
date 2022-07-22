@@ -17,6 +17,11 @@ function after(callable $callback): void
   PSpec::after($callback);
 }
 
+function around(callable $callable): void
+{
+  PSpec::around($callable);
+}
+
 function context(string $title, callable $callback): void
 {
   describe($title, $callback);

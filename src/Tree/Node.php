@@ -13,8 +13,7 @@ abstract class Node
   protected Stats $stats;
   public array $children = [];
   private array $variables = [];
-  private array $before = [];
-  private array $after = [];
+  private array $hooks = [];
   protected string $indent = '';
 
   public function __construct(private ?Node $parent = null)
@@ -22,14 +21,38 @@ abstract class Node
     $this->stats = new Stats();
   }
 
-  public function addBefore(callable $callback): void
+  public function addBefore(Closure $callback): void
   {
-    $this->before[] = $callback;
+    $this->hooks[] = function ($test) use ($callback) {
+      Closure::bind($callback, $this)();
+      $test();
+    };
   }
 
-  public function addAfter(callable $callback): void
+  public function addHook(callable $callback): void
   {
-    $this->after[] = $callback;
+    $this->hooks[] = $callback;
+  }
+
+  public function addAfter(Closure $callback): void
+  {
+    array_unshift($this->hooks, function (callable $test, callable $report) use ($callback) {
+      try {
+        $test();
+      } catch (\Throwable $th) {
+        $report($th);
+      }
+      Closure::bind($callback, $this)();
+    });
+  }
+
+  protected function getHooks(Scope $scope): array
+  {
+    return array_reduce(
+      array_map(fn (Node $node) => array_map(fn (Closure $hook) => $hook->bindTo($scope), $node->hooks), $this->reversedParents()),
+      fn (array $all, array $hooks) => array_merge($all, $hooks),
+      []
+    );
   }
 
   public function addDescribe(string $title): DescribeNode
@@ -81,28 +104,6 @@ abstract class Node
   public function getIndent(): string
   {
     return $this->indent;
-  }
-
-  public function runBefores(Scope $scope): void
-  {
-    $parents = $this->reversedParents();
-
-    foreach ($parents as $parent) {
-      foreach ($parent->before as $callable) {
-        Closure::bind($callable, $scope)();
-      }
-    }
-  }
-
-  public function runAfters(Scope $scope): void
-  {
-    $parents = array_reverse($this->reversedParents());
-
-    foreach ($parents as $parent) {
-      foreach ($parent->after as $callable) {
-        Closure::bind($callable, $scope)();
-      }
-    }
   }
 
   public function resolveVariable(string $name): ?Variable
