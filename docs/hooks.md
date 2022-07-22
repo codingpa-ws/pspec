@@ -62,3 +62,23 @@ describe('Modem', function () {
   });
 });
 ```
+
+## `around`
+
+The `before` and `after` hooks run directly before and after a test,
+respectively. However, they don’t have control over text execution. The
+more powerful `around` hook is passed a callable, which will trigger the
+test.
+
+This allows you to run tests in isolated environments, for example, by
+encapsulating each test in its own database transaction.
+
+```php
+describe('Database', function () {
+  around(function ($test) {
+    DB::transaction(function () {
+      $test();
+    });
+  });
+});
+```
