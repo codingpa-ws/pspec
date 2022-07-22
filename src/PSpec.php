@@ -44,12 +44,17 @@ class PSpec
 
   public static function before(callable $callback): void
   {
-    self::$instance->tree->getRoot()->addBefore($callback);
+    self::$instance->tree->getRoot()->addBefore(Closure::fromCallable($callback));
   }
 
   public static function after(callable $callback): void
   {
-    self::$instance->tree->getRoot()->addAfter($callback);
+    self::$instance->tree->getRoot()->addAfter(Closure::fromCallable($callback));
+  }
+
+  public static function around(callable $callback): void
+  {
+    self::$instance->tree->getRoot()->addHook($callback);
   }
 
   public static function let(string $title, mixed $value): void

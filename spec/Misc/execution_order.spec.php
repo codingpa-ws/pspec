@@ -14,7 +14,13 @@ describe('execution order', function () {
   });
 
   after(function () {
-    expect(++$GLOBALS['i'])->toBe(9);
+    expect(++$GLOBALS['i'])->toBe(11);
+  });
+
+  around(function ($test) {
+    expect(++$GLOBALS['i'])->toBe(6);
+    $test();
+    expect(++$GLOBALS['i'])->toBe(10);
   });
 
   describe('describe 2', function () {
@@ -22,17 +28,17 @@ describe('execution order', function () {
     context('empty context', fn () => null);
 
     after(function () {
-      expect(++$GLOBALS['i'])->toBe(7);
+      expect(++$GLOBALS['i'])->toBe(8);
     });
 
     after(function () {
-      expect(++$GLOBALS['i'])->toBe(8);
+      expect(++$GLOBALS['i'])->toBe(9);
     });
 
     context('full context', function () {
       expect(++$GLOBALS['i'])->toBe(3);
       it('inner test case', function () {
-        expect(++$GLOBALS['i'])->toBe(6);
+        expect(++$GLOBALS['i'])->toBe(7);
       });
     });
   });
