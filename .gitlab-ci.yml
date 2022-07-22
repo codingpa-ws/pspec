@@ -21,6 +21,23 @@ test:examples:
     reports:
       junit: junit.xml
 
+# Tests the current tests with the latest release
+# of PSpec. While newer tests don’t have to be
+# backwards compatible, this can indicate breaking
+# changes.
+test:regression:
+  script:
+    - rm -rf src
+    - cat composer.json | sed s/codingpaws\\/pspec/codingpaws\\/pspec-test/ > composer-new.json
+    - mv composer-new.json composer.json
+    - mkdir -p src/Helpers
+    - touch src/Helpers/globals.php
+    - composer require codingpaws/pspec
+    - vendor/bin/pspec
+  allow_failure: true
+  rules:
+    - if: "$CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH"
+
 lint:
   before_script:
     - cd tools/php-cs-fixer
