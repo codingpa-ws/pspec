@@ -85,7 +85,7 @@ abstract class TestFormatter
     $s = "";
     $offset = $error instanceof AssertionError ? 1 : 0;
     $error_line = $error->getTrace()[$offset];
-    if (!array_key_exists('file', $error_line)) {
+    if (!array_key_exists('file', $error_line) || !file_exists($error_line['file'])) {
       return "  Unknown exception: $error";
     }
     $error_file_contents = file_get_contents($error_line['file']);
